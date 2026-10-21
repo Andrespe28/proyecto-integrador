@@ -7,5 +7,7 @@ public class Zapato {
     private String seccionBodega;
 
     public void actualizarStock(int cantidad){}
-    public boolean verificarDisponibilidad(){}
+    public boolean verificarDisponibilidad() {
+        return false;
+    }
 }

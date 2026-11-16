@@ -1,0 +1,61 @@
+package modelos;
+
+import interfaces.Guardable;
+import persistencia.FileManage;
+import java.util.ArrayList;
+
+public class Inventario implements Guardable {
+    private ArrayList<Zapato> listaZapatos;
+
+    private FileManage fileManager = new FileManage("inventario_zapatos.txt");
+
+    public Inventario() {
+        this.listaZapatos = new ArrayList<>();
+    }
+
+    public void agregarZapato(Zapato zapato) {
+        listaZapatos.add(zapato);
+    }
+
+    public Zapato buscarZapato(String codigo) {
+        for (Zapato z : listaZapatos) {
+            if (z.getCodigo().equalsIgnoreCase(codigo)) {
+                return z;
+            }
+        }
+        return null;
+    }
+
+    public void registrarVenta(String codigo) {
+        // Lógica de venta
+    }
+
+
+    @Override
+    public void guardarEnArchivo() {
+        ArrayList<String> lineasInventario = new ArrayList<>();
+
+        for (Zapato z : listaZapatos) {
+            String linea = z.getCodigo() + "|" + z.getTipo() + "|" + z.getTalla() + "|" +
+                    z.getColor() + "|" + z.getPrecio() + "|" + z.getCantidadDisp() + "|" + z.getSeccionBodega();
+            lineasInventario.add(linea);
+        }
+
+        fileManager.writeLinesToFile(lineasInventario);
+        System.out.println("¡Inventario guardado con éxito en el archivo!");
+    }
+
+    @Override
+    public void leerDeArchivo() {
+        ArrayList<String> lineas = fileManager.getDataOfFile();
+
+        if (lineas != null && !lineas.isEmpty()) {
+            System.out.println("=== CONTENIDO DEL ARCHIVO DE INVENTARIO ===");
+            for (String linea : lineas) {
+                System.out.println(linea);
+            }
+        } else {
+            System.out.println("El archivo está vacío o no existe todavía.");
+        }
+    }
+}

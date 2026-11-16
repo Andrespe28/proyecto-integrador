@@ -1,3 +1,5 @@
+package modelos;
+
 public class Usuario {
     protected String cedula;
     protected String nombre;

@@ -1,4 +1,7 @@
+package interfaces;
+
 public interface Guardable {
     public void guardarEnArchivo();
-    //public static void leerDeArchivo();
+
+    public void leerDeArchivo();
 }

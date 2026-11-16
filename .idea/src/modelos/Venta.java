@@ -1,3 +1,6 @@
+package modelos;
+
+import interfaces.Guardable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,9 +14,12 @@ public class Venta implements Guardable {
     private Vendedor vendedor;
     private MetodoPago metodoPago;
 
-    public double calcularTotalVenta(){}
+    public double calcularTotalVenta(){
+        return 0;
+    }
     public void agregarDetalle(DetalleVenta detalle){}
     public void guardarEnArchivo(){}
+    public void LeerDeArchivo(){}
 
     public class DetalleVenta{
         private int cantidad;

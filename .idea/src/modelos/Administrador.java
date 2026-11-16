@@ -1,4 +1,6 @@
-    import java.util.ArrayList;
+package modelos;
+
+import java.util.ArrayList;
 
 public class Administrador {
     private static double porcentajeComision;

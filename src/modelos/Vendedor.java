@@ -1,11 +1,14 @@
 package modelos;
 
+import java.util.ArrayList;
+
 public class Vendedor extends Usuario{
     private int ventasRealizadas;
 
     public Vendedor(String cedula, String nombre) {
         super(cedula, nombre);
         this.ventasRealizadas = 0;
+
     }
 
     public void registrarVenta(){

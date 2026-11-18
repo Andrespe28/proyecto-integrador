@@ -29,6 +29,11 @@ public class Inventario implements Guardable {
     public void registrarVenta(String codigo) {
         // Lógica de venta
     }
+
+    public void registrarIntercambio(String codigo1, String codigo2, int cant1, int cant2) {
+
+    }
+
     public void mostrarInventarioTotal() {
         System.out.println("El inventario total es: ");
         for (Zapato z : listaZapatos) {

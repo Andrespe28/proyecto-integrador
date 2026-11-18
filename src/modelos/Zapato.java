@@ -8,8 +8,9 @@ public class Zapato {
     private double precio;
     private int cantidadDisp;
     private String seccionBodega;
+    private String sexo;
 
-    public Zapato(String codigo, String tipo, int talla, String color, double precio, int cantidadDisp, String seccionBodega) {
+    public Zapato(String codigo, String tipo, int talla, String color, double precio, int cantidadDisp, String seccionBodega, String sexo) {
         this.codigo = codigo;
         this.tipo = tipo;
         this.talla = talla;
@@ -17,6 +18,7 @@ public class Zapato {
         this.precio = precio;
         this.cantidadDisp = cantidadDisp;
         this.seccionBodega = seccionBodega;
+        this.sexo = sexo;
     }
 
     public void actualizarStock(int cantidad){
@@ -35,6 +37,7 @@ public class Zapato {
         System.out.println("Precio: "+precio);
         System.out.println("Cantidad disponible: "+cantidadDisp);
         System.out.println("Seccion Bodega: "+seccionBodega);
+        System.out.println("Sexo: "+sexo);
     }
 
     public boolean verificarDisponibilidad() {
@@ -72,4 +75,6 @@ public class Zapato {
     public String getSeccionBodega() {
         return seccionBodega;
     }
+
+    public String getSexo() {return sexo;}
 }

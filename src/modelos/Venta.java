@@ -13,18 +13,17 @@ public class Venta implements Guardable {
     private ArrayList<DetalleVenta> detalles;
     private Vendedor vendedor;
     private MetodoPago metodoPago;
+    private double total;
 
-    public Venta(String nombreComprador, String telefonoComprador, Vendedor vendedor, MetodoPago metodoPago) {
+    public Venta(String nombreComprador, String telefonoComprador, Vendedor vendedor) {
         this.nombreComprador = nombreComprador;
         this.telefonoComprador = telefonoComprador;
         this.vendedor = vendedor;
-        this.metodoPago = metodoPago;
         contadorVenta++;
         numeroVenta = contadorVenta;
         fecha = new Date();
         detalles = new ArrayList<DetalleVenta>();
     }
-
     public double calcularTotalVenta(){
         double total=0;
         for(DetalleVenta det:detalles){
@@ -74,5 +73,13 @@ public class Venta implements Guardable {
 
     public MetodoPago getMetodoPago() {
         return metodoPago;
+    }
+
+    public void setMetodoPago(MetodoPago metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 }

@@ -9,6 +9,14 @@ public class Usuario {
         this.nombre = nombre;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
     public boolean iniciarSesion(){
         return true;
     }

@@ -1,13 +1,11 @@
 package modelos;
 
 public class PagoTransferencia extends MetodoPago{
-    private String banco;
-    private String comprobante;
+    private String banco;;
 
-    public PagoTransferencia(String banco, String comprobante, double monto){
+    public PagoTransferencia(String banco,double monto){
         super(monto);
         this.banco = banco;
-        this.comprobante = comprobante;
     }
 
     public double procesarPago(){

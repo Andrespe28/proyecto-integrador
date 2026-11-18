@@ -101,12 +101,13 @@ public class Menu {
                     System.out.println("Consultar ventas por vendedor");
                     break;
                 case 2:
-                    System.out.println("Guardar datos del mes");
+                    System.out.println("Guardar datos del mes.");
                     break;
                 case 0:
                     System.out.println("Saliendo del sistema.");
                 default:
                     System.out.println("Opción inválida");
+
             }
         }while(i!=0);
     }

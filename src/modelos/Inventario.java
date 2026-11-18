@@ -29,7 +29,12 @@ public class Inventario implements Guardable {
     public void registrarVenta(String codigo) {
         // Lógica de venta
     }
-
+    public void mostrarInventarioTotal() {
+        System.out.println("El inventario total es: ");
+        for (Zapato z : listaZapatos) {
+            z.mostrarZapato();
+        }
+    }
 
     @Override
     public void guardarEnArchivo() {
@@ -52,7 +57,19 @@ public class Inventario implements Guardable {
         if (lineas != null && !lineas.isEmpty()) {
             System.out.println("=== CONTENIDO DEL ARCHIVO DE INVENTARIO ===");
             for (String linea : lineas) {
-                System.out.println(linea);
+                String[] datos = linea.split("\\|");
+                String codigo = datos[0];
+                String tipo = datos[1];
+                int talla = Integer.parseInt(datos[2]);
+                String color = datos[3];
+                double precio = Double.parseDouble(datos[4]);
+                int cantidadDisp = Integer.parseInt(datos[5]);
+                String seccionBodega = datos[6];
+                String sexo = datos[7];
+
+                Zapato zapato = new Zapato(codigo,tipo,talla,color, precio, cantidadDisp, seccionBodega,sexo);
+
+                listaZapatos.add(zapato);
             }
         } else {
             System.out.println("El archivo está vacío o no existe todavía.");

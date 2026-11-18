@@ -30,14 +30,8 @@ public class Zapato {
         }
     }
     public void mostrarZapato(){
-        System.out.println("Código: "+codigo);
-        System.out.println("Tipo: "+tipo);
-        System.out.println("Talla: "+talla);
-        System.out.println("Color: "+color);
-        System.out.println("Precio: "+precio);
-        System.out.println("Cantidad disponible: "+cantidadDisp);
-        System.out.println("Seccion Bodega: "+seccionBodega);
-        System.out.println("Sexo: "+sexo);
+        System.out.printf("Código: %s, Tipo: %s, Talla: %d, Color: %s, Precio: %.2f, Cantidad disponible: %d, Seccion Bodega: %s, Sexo: %s.\n",codigo,tipo,talla,color,precio,cantidadDisp,seccionBodega,sexo);
+
     }
 
     public boolean verificarDisponibilidad() {

@@ -5,8 +5,14 @@ import modelos.Zapato;
 import java.util.Scanner;
 
 public class Menu {
-    private Scanner sc=new Scanner(System.in);
-    private Inventario inventario=new Inventario();
+    private Scanner sc;
+    private Inventario inventario;
+    public Menu() {
+        sc = new Scanner(System.in);
+        inventario = new Inventario();
+        inventario.leerDeArchivo();
+    }
+
     public void iniciarMenu(){
         int opcion;
         do{
@@ -42,13 +48,23 @@ public class Menu {
             switch(i){
                 case 1:
                     System.out.println("Consultar inventario");
-                    System.out.println("Ingrese el código del zapato que desea buscar: ");
-                    String codigo=sc.nextLine();
-                    Zapato zapato=inventario.buscarZapato(codigo);
-                    if(zapato!=null){
-                        zapato.mostrarZapato();
-                    }else{
-                        System.out.println("No existe un producto con ese código");
+                    System.out.println("1. Consultar por código.\n2. Consultar inventario total");
+                    int opcion = sc.nextInt();
+                    sc.nextLine();
+                    switch(opcion){
+                        case 1:
+                            System.out.println("Ingrese el código del zapato que desea buscar: ");
+                            String codigo=sc.nextLine();
+                            Zapato zapato=inventario.buscarZapato(codigo);
+                            if(zapato!=null){
+                                zapato.mostrarZapato();
+                            }else{
+                                System.out.println("No existe un producto con ese código");
+                            }
+                            break;
+                        case 2:
+                            inventario.mostrarInventarioTotal();
+                            break;
                     }
                     break;
                 case 2:

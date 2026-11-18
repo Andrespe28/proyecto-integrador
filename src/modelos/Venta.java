@@ -35,8 +35,10 @@ public class Venta implements Guardable {
     public void agregarDetalle(DetalleVenta detalle){
         detalles.add(detalle);
     }
+
     @Override
     public void guardarEnArchivo(){}
+
     @Override
     public void leerDeArchivo(){}
 
@@ -44,14 +46,33 @@ public class Venta implements Guardable {
         private int cantidad;
         private double precioUnitario;
         private Zapato zapato;
-        public DetalleVenta(int cantidad, double precioUnitario, Zapato zapato) {
+
+        public DetalleVenta(int cantidad, Zapato zapato) {
             this.cantidad = cantidad;
-            this.precioUnitario = precioUnitario;
+            this.precioUnitario = zapato.getPrecio();
             this.zapato = zapato;
         }
         public double calcularSubtotal(){
-            this.precioUnitario=zapato.getPrecio();
-            return cantidad*precioUnitario;}
+            return cantidad * precioUnitario;}
     }
 
+    public String getNombreComprador() {
+        return nombreComprador;
+    }
+
+    public String getTelefonoComprador() {
+        return telefonoComprador;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public MetodoPago getMetodoPago() {
+        return metodoPago;
+    }
 }

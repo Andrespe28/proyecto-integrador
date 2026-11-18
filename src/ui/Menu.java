@@ -72,6 +72,7 @@ public class Menu {
                     break;
                 case 3:
                     System.out.println("Registrar venta");
+
                     break;
                 case 4:
                     System.out.println("Consultar datos del comprador");

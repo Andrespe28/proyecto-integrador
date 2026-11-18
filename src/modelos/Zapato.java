@@ -19,7 +19,23 @@ public class Zapato {
         this.seccionBodega = seccionBodega;
     }
 
-    public void actualizarStock(int cantidad){}
+    public void actualizarStock(int cantidad){
+        if(cantidad+cantidadDisp<0){
+            System.out.println("No es posible actualizar el stock. No hay suficientes productos disponibles.");
+        }
+        else{
+            cantidadDisp=cantidadDisp+cantidad;
+        }
+    }
+    public void mostrarZapato(){
+        System.out.println("Código: "+codigo);
+        System.out.println("Tipo: "+tipo);
+        System.out.println("Talla: "+talla);
+        System.out.println("Color: "+color);
+        System.out.println("Precio: "+precio);
+        System.out.println("Cantidad disponible: "+cantidadDisp);
+        System.out.println("Seccion Bodega: "+seccionBodega);
+    }
 
     public boolean verificarDisponibilidad() {
         if(cantidadDisp == 0){

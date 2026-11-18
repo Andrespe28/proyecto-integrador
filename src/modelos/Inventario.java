@@ -37,7 +37,7 @@ public class Inventario implements Guardable {
 
         for (Zapato z : listaZapatos) {
             String linea = z.getCodigo() + "|" + z.getTipo() + "|" + z.getTalla() + "|" +
-                    z.getColor() + "|" + z.getPrecio() + "|" + z.getCantidadDisp() + "|" + z.getSeccionBodega();
+                    z.getColor() + "|" + z.getPrecio() + "|" + z.getCantidadDisp() + "|" + z.getSeccionBodega() + "|" + z.getSexo();
             lineasInventario.add(linea);
         }
 

@@ -84,7 +84,7 @@ public class Menu {
                     System.out.println("Cierre de caja");
                     break;
                 case 0:
-                    System.out.println("Saliendo del sistema.");
+                    System.out.println("Saliendo del menú del vendedor.");
                 default:
                     System.out.println("Opción inválida");
             }
@@ -105,7 +105,7 @@ public class Menu {
                     System.out.println("Guardar datos del mes.");
                     break;
                 case 0:
-                    System.out.println("Saliendo del sistema.");
+                    System.out.println("Saliendo del menú del administrador.");
                     break;
                 default:
                     System.out.println("Opción inválida");

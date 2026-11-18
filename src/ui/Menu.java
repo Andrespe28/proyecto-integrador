@@ -105,6 +105,7 @@ public class Menu {
                     break;
                 case 0:
                     System.out.println("Saliendo del sistema.");
+                    break;
                 default:
                     System.out.println("Opción inválida");
 

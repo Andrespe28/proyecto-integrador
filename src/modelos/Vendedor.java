@@ -1,6 +1,9 @@
 package modelos;
 
 public class Vendedor extends Usuario{
-    private int ventasRealizadas;
-    public void registrarVenta(){}
+    private static int ventasRealizadas;
+    private String codigoVendedor;
+    public void registrarVenta(){
+        ventasRealizadas++;
+    }
 }

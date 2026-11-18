@@ -44,6 +44,11 @@ public class Venta implements Guardable {
         private int cantidad;
         private double precioUnitario;
         private Zapato zapato;
+        public DetalleVenta(int cantidad, double precioUnitario, Zapato zapato) {
+            this.cantidad = cantidad;
+            this.precioUnitario = precioUnitario;
+            this.zapato = zapato;
+        }
         public double calcularSubtotal(){
             this.precioUnitario=zapato.getPrecio();
             return cantidad*precioUnitario;}

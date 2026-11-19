@@ -29,6 +29,7 @@ public class Menu {
 
         administrador =new Administrador("12000000","David");
         administrador.leerVentasDeArchivo(vendedores);
+        administrador.actualizarComisiones(vendedores);
 
         int opcion;
         do{
@@ -116,7 +117,7 @@ public class Menu {
                             System.out.println("No existe un vendedor con ese nombre.");
                             break;
                         }
-                        vendedor.registrarVenta();
+
                         System.out.print("Ingrese el nombre del comprador: ");
                         String comprador=sc.nextLine();
                         System.out.print("Ingrese el telefono del comprador: ");
@@ -157,6 +158,7 @@ public class Menu {
                         administrador.agregarVenta(venta);
                         venta.guardarEnArchivo();
                         inventario.guardarEnArchivo();
+                        vendedor.registrarVenta();
                     }
                     break;
                 case 3:
@@ -241,10 +243,11 @@ public class Menu {
                             System.out.println("Opción invalida. Intente nuevamente.");
                     }
 
+                    vendedor.registrarVenta();
                     administrador.agregarVenta(venta);
                     venta.guardarEnArchivo();
                     inventario.guardarEnArchivo();
-                    vendedor.registrarVenta();
+                    administrador.actualizarComisiones(vendedores);
                     break;
                 case 4:
                     System.out.println("Consultar datos del comprador");
@@ -281,36 +284,37 @@ public class Menu {
         int i;
         do{
             System.out.println("------------------------------\n          MENÚ ADMINISTRADOR           \n------------------------------");
-            System.out.println("1. Consultar ventas por vendedor.\n2. Ver datos del mes.\n3.Registrar nuevos productos.\n 0. Salir");
+            System.out.println("1. Ver datos del mes.\n2.Registrar nuevos productos.\n 0. Salir");
             System.out.print("Seleccione una opcion: ");
             i = sc.nextInt();
             switch(i){
+
                 case 1:
-                    System.out.println("Consultar ventas por vendedor");
-                    //Consultar el atributo de cada vendedor
-                    break;
-                case 2:
                     System.out.println("Ver datos del mes.");
-                    System.out.println("1. Ver comisiones.\n2. Ver ventas.\nSeleccione una opcion (1-2): ");
+                    System.out.println("1. Ver salario total.\n2. Ver ventas.\nSeleccione una opcion (1-2): ");
                     int opcion=sc.nextInt();
+                    sc.nextLine();
                     switch (opcion){
                         case 1:
-                            double porcentaje = 10;
-
                             for (Vendedor vendedor : vendedores) {
+                                double comision = administrador.calcularComision(vendedor);
+                                double salarioTotal = administrador.calcularSalarioTotal(vendedor);
 
-                                double comision = administrador.calcularComisionesTotales(
-                                        administrador.getListaVentas(),
-                                        vendedor,
-                                        porcentaje
-                                );
-
-                                System.out.println(
-                                        vendedor.getNombre() + " → $" + comision
-                                );
+                                System.out.println("\nVendedor: " + vendedor.getNombre());
+                                System.out.println("Ventas realizadas: " + vendedor.getVentasRealizadas());
+                                System.out.println("Comisión: $" + comision);
+                                System.out.println("Salario base: $" + administrador.getSalarioBase());
+                                System.out.println("Salario total: $" + salarioTotal);
                             }
+                            break;
+                        case 2:
+                            administrador.mostrarVentas();
+                            break;
+                        default:
+                            System.out.println("Opción inválida");
+
                     }
-                    sc.nextLine();
+
                     //Imprimir el archivo de comisiones y ventas
                     break;
                 case 0:

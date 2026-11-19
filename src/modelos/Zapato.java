@@ -41,6 +41,9 @@ public class Zapato {
             return true;
         }
     }
+    public String toFormatoArchivo() {
+        return codigo + "|" + tipo + "|" + talla + "|" + color + "|" + precio +"|"+ cantidadDisp +"|"+ seccionBodega +"|"+ sexo;
+    }
 
     public String getCodigo() {
         return codigo;

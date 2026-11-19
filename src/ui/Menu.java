@@ -8,10 +8,12 @@ public class Menu {
     private Scanner sc;
     private Inventario inventario;
     private ArrayList<Vendedor> vendedores;
+    private Administrador administrador;
     public Menu() {
         sc = new Scanner(System.in);
         inventario = new Inventario();
         inventario.leerDeArchivo();
+        this.administrador=new Administrador("12000000","David");
     }
 
     public void iniciarMenu(){
@@ -25,7 +27,6 @@ public class Menu {
         vendedores.add(vendedor2);
         vendedores.add(vendedor3);
 
-        Administrador administrador=new Administrador("12000000","David");
 
         int opcion;
         do{
@@ -176,6 +177,7 @@ public class Menu {
             System.out.println("1. Consultar ventas por vendedor.\n2. Ver datos del mes.\n3.Registrar nuevos productos.\n 0. Salir");
             System.out.print("Seleccione una opcion: ");
             i = sc.nextInt();
+            sc.nextLine();
             switch(i){
                 case 1:
                     System.out.println("Consultar ventas por vendedor");
@@ -187,7 +189,27 @@ public class Menu {
                     System.out.println("Saliendo del menú del administrador.");
                     break;
                 case 3:
-                    System.out.println("Registrar nuevos productos.");
+                    System.out.println("Ingrese el codigo del zapato:");
+                    String codigo=sc.nextLine();
+                    System.out.println("Ingrese el tipo del zapato:");
+                    String tipo=sc.nextLine();
+                    System.out.println("Ingrese la talla del zapato:");
+                    int talla=sc.nextInt();
+                    sc.nextLine();
+                    System.out.println("Ingrese el color del zapato:");
+                    String color=sc.nextLine();
+                    System.out.println("Ingrese el precio del zapato:");
+                    double precio=sc.nextDouble();
+                    sc.nextLine();
+                    System.out.println("Ingrese la cantidad de pares del zapato:");
+                    int cantidad=sc.nextInt();
+                    sc.nextLine();
+                    System.out.println("Ingrese la seccion donde esta el zapato:");
+                    String bodega=sc.nextLine();
+                    System.out.println("Ingrese el sexo al que va dirigido el zapato:");
+                    String sexo=sc.nextLine();
+                    Zapato zaptonuevo=new Zapato(codigo,tipo,talla,color,precio,cantidad,bodega,sexo);
+                    administrador.registrarNuevoZapato(zaptonuevo);
                     break;
                 default:
                     System.out.println("Opción inválida");

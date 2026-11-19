@@ -239,15 +239,20 @@ public class Menu {
                     System.out.println("Ingresa el número de venta:");
                     int numVenta=sc.nextInt();
                     sc.nextLine();
-
-
-
+                    Venta v=administrador.buscarVenta(numVenta);
+                    System.out.println("El nombre del comprador es: "+v.getNombreComprador());
+                    System.out.println("El teléfono del comprador es: "+v.getTelefonoComprador());
                     break;
                 case 5:
                     System.out.println("Buscar ubicacion del producto");
+                    System.out.println("Ingrese el código del producto");
+                    String codigoProducto=sc.nextLine();
+                    Zapato zapato=inventario.buscarZapato(codigoProducto);
+                    System.out.println("El producto está en la sección "+zapato.getSeccionBodega()+" de la bodega");
                     break;
                 case 6:
                     System.out.println("Cierre de caja");
+                    //Mirar las ventas hechas por efectivo, transferencia y tarjeta
                     break;
                 case 0:
                     System.out.println("Saliendo del menú del vendedor.");
@@ -266,15 +271,21 @@ public class Menu {
             switch(i){
                 case 1:
                     System.out.println("Consultar ventas por vendedor");
+                    //Consultar el atributo de cada vendedor
                     break;
                 case 2:
-                    System.out.println("Guardar datos del mes.");
+                    System.out.println("Ver datos del mes.");
+                    System.out.println("1. Ver comisiones.\n2. Ver ventas.\nSeleccione una opcion (1-2): ");
+                    int opcion=sc.nextInt();
+                    sc.nextLine();
+                    //Imprimir el archivo de comisiones y ventas
                     break;
                 case 0:
                     System.out.println("Saliendo del menú del administrador.");
                     break;
                 case 3:
                     System.out.println("Registrar nuevos productos.");
+                    //Ingresar nuevas cantidades a un producto existente o ingresar un producto nuevo completamente
                     break;
                 default:
                     System.out.println("Opción inválida");

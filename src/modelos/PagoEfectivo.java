@@ -11,6 +11,7 @@ public class PagoEfectivo extends MetodoPago{
 
     @Override
     public double procesarPago(){
+        System.out.println("¡Pago exitoso!");
         return this.dineroRecibido - getMonto();
     }
 }

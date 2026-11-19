@@ -2,7 +2,7 @@ package modelos;
 
 public class PagoTarjeta extends MetodoPago{
     private int numeroTarjeta;
-    private static double tasaInteres = 0.05;
+    private static double tasaInteres = 0.02;
 
     public PagoTarjeta(double monto, int numeroTarjeta) {
         super(monto);

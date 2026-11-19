@@ -1,6 +1,8 @@
 package modelos;
 
 import interfaces.Guardable;
+import persistencia.FileManage;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,6 +16,7 @@ public class Venta implements Guardable {
     private Vendedor vendedor;
     private MetodoPago metodoPago;
     private double total;
+    private FileManage fileManager = new FileManage("ventas.txt");
 
     public int getNumeroVenta() {
         return numeroVenta;
@@ -40,8 +43,6 @@ public class Venta implements Guardable {
         detalles.add(detalle);
     }
 
-    @Override
-    public void guardarEnArchivo(){}
 
     @Override
     public void leerDeArchivo(){}
@@ -86,5 +87,19 @@ public class Venta implements Guardable {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+    @Override
+    public void guardarEnArchivo() {
+        String linea = numeroVenta + "|" +
+                nombreComprador + "|" +
+                telefonoComprador + "|" +
+                vendedor.getNombre() + "|" +
+                total;
+
+        fileManager.writeFile(linea);
     }
 }

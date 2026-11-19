@@ -39,7 +39,7 @@ public class Inventario implements Guardable {
 
 
         double diffPrecio = zapato2.getPrecio()-zapato1.getPrecio();
-
+        guardarEnArchivo();
         return diffPrecio;
     }
 

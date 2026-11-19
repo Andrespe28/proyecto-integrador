@@ -28,6 +28,7 @@ public class Menu {
         vendedores.add(vendedor3);
 
         administrador =new Administrador("12000000","David");
+        administrador.leerVentasDeArchivo(vendedores);
 
         int opcion;
         do{
@@ -138,15 +139,15 @@ public class Menu {
                                 break;
                             case 2:
                                 System.out.println("Ingrese el número de la tarjeta: ");
-                                int numTarjeta=sc.nextInt();
-                                PagoTarjeta pagoTarjeta=new PagoTarjeta(total,numTarjeta);
+                                int numTarjetaCambio=sc.nextInt();
+                                PagoTarjeta pagoTarjeta=new PagoTarjeta(total,numTarjetaCambio);
                                 venta.setTotal(pagoTarjeta.procesarPago());
                                 venta.setMetodoPago(pagoTarjeta);
                                 break;
                             case 3:
                                 System.out.println("Ingrese el nombre del Banco:");
-                                String nombreBanco=sc.nextLine();
-                                PagoTransferencia pagoTransferencia=new PagoTransferencia(nombreBanco,total);
+                                String nombreBancoCambio=sc.nextLine();
+                                PagoTransferencia pagoTransferencia=new PagoTransferencia(nombreBancoCambio,total);
                                 venta.setTotal(pagoTransferencia.procesarPago());
                                 venta.setMetodoPago(pagoTransferencia);
                                 break;
@@ -154,6 +155,8 @@ public class Menu {
                                 System.out.println("Opción invalida. Intente nuevamente.");
                         }
                         administrador.agregarVenta(venta);
+                        venta.guardarEnArchivo();
+                        inventario.guardarEnArchivo();
                     }
                     break;
                 case 3:
@@ -172,7 +175,7 @@ public class Menu {
                         System.out.println("No existe un vendedor con ese nombre.");
                         break;
                     }
-                    vendedor.registrarVenta();
+
                     System.out.print("Ingrese el nombre del comprador: ");
                     String comprador=sc.nextLine();
                     System.out.print("Ingrese el telefono del comprador: ");
@@ -192,7 +195,13 @@ public class Menu {
                         System.out.println("Ingrese la cantidad de unidades del producto: ");
                         cantidad=sc.nextInt();
                         sc.nextLine();
+                        if(cantidad> z.getCantidadDisp()){
+                            System.out.println("No hay suficientes unidades. Por favor ingrese nuevamente");
+                            System.out.println("Cantidades disponibles: "+z.getCantidadDisp());
+                            continue;
+                        }
                         z.actualizarStock(-cantidad);
+                        inventario.guardarEnArchivo();
                         detalle=venta.new DetalleVenta(cantidad,z);
                         venta.agregarDetalle(detalle);
                         System.out.println("¿Desea agregar otro producto?\n1. Si.\n2. No");
@@ -233,6 +242,9 @@ public class Menu {
                     }
 
                     administrador.agregarVenta(venta);
+                    venta.guardarEnArchivo();
+                    inventario.guardarEnArchivo();
+                    vendedor.registrarVenta();
                     break;
                 case 4:
                     System.out.println("Consultar datos del comprador");
@@ -240,14 +252,18 @@ public class Menu {
                     int numVenta=sc.nextInt();
                     sc.nextLine();
                     Venta v=administrador.buscarVenta(numVenta);
-                    System.out.println("El nombre del comprador es: "+v.getNombreComprador());
-                    System.out.println("El teléfono del comprador es: "+v.getTelefonoComprador());
+                    if (v == null) {
+                        System.out.println("Esa venta no ha sido registrada");
+                    }else {
+                        System.out.println("El nombre del comprador es: " + v.getNombreComprador());
+                        System.out.println("El teléfono del comprador es: " + v.getTelefonoComprador());
+                    }
                     break;
                 case 5:
                     System.out.println("Buscar ubicacion del producto");
                     System.out.println("Ingrese el código del producto");
-                    String codigoProducto=sc.nextLine();
-                    Zapato zapato=inventario.buscarZapato(codigoProducto);
+                    String producto=sc.nextLine();
+                    Zapato zapato=inventario.buscarZapato(producto);
                     System.out.println("El producto está en la sección "+zapato.getSeccionBodega()+" de la bodega");
                     break;
                 case 6:
@@ -277,6 +293,23 @@ public class Menu {
                     System.out.println("Ver datos del mes.");
                     System.out.println("1. Ver comisiones.\n2. Ver ventas.\nSeleccione una opcion (1-2): ");
                     int opcion=sc.nextInt();
+                    switch (opcion){
+                        case 1:
+                            double porcentaje = 10;
+
+                            for (Vendedor vendedor : vendedores) {
+
+                                double comision = administrador.calcularComisionesTotales(
+                                        administrador.getListaVentas(),
+                                        vendedor,
+                                        porcentaje
+                                );
+
+                                System.out.println(
+                                        vendedor.getNombre() + " → $" + comision
+                                );
+                            }
+                    }
                     sc.nextLine();
                     //Imprimir el archivo de comisiones y ventas
                     break;

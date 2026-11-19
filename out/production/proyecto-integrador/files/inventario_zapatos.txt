@@ -1,3 +1,4 @@
 0001|Tenis|37|Negro|150000|10|A|Mujer
 0002|Deportivo|41|Verde|200000|25|A|Hombre
-0003|Tacones|34|Rojo|70000|6|A|Mujer0004|Tacones|32|Rojo|85000.0|10|A|Mujer
+0003|Tacones|34|Rojo|70000|6|A|Mujer
+0004|Tacones|32|Rojo|85000.0|10|A|Mujer

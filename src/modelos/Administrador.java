@@ -37,7 +37,13 @@ public class Administrador extends Usuario {
         return totalComision;
     }
 
-    public void generarArchivoMensual() {
+    public Venta buscarVenta(int numVenta) {
+        for (Venta v : listaVentas) {
+            if(numVenta==v.getNumeroVenta()){
+                return v;
+            }
+        }
+        return null;
     }
 
     public void registrarNuevoZapato(Zapato nuevoZapato) {

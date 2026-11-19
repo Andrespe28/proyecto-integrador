@@ -15,6 +15,10 @@ public class Venta implements Guardable {
     private MetodoPago metodoPago;
     private double total;
 
+    public int getNumeroVenta() {
+        return numeroVenta;
+    }
+
     public Venta(String nombreComprador, String telefonoComprador, Vendedor vendedor) {
         this.nombreComprador = nombreComprador;
         this.telefonoComprador = telefonoComprador;

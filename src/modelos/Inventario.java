@@ -30,8 +30,17 @@ public class Inventario implements Guardable {
         // Lógica de venta
     }
 
-    public void registrarIntercambio(String codigo1, String codigo2, int cant1, int cant2) {
+    public double registrarIntercambio(String codigo1, String codigo2, int cant1, int cant2) {
+        Zapato zapato1 =  buscarZapato(codigo1);
+        zapato1.actualizarStock(cant1);
 
+        Zapato zapato2 =  buscarZapato(codigo2);
+        zapato2.actualizarStock(-cant2);
+
+
+        double diffPrecio = zapato2.getPrecio()-zapato1.getPrecio();
+
+        return diffPrecio;
     }
 
     public void mostrarInventarioTotal() {

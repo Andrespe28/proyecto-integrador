@@ -9,6 +9,14 @@ public class Administrador extends Usuario{
         super(cedula, nombre);
     }
 
+    public void setListaVentas(ArrayList<Venta> listaVentas) {
+        this.listaVentas = listaVentas;
+    }
+
+    public void agregarVenta(Venta venta){
+        listaVentas.add(venta);
+    }
+
     private static double porcentajeComision;
     public void calcularComisiones(ArrayList<Venta> listaVentas){}
     public void generarArchivoMensual(){}

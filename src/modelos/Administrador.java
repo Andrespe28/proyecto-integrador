@@ -6,9 +6,10 @@ import java.util.ArrayList;
 
 public class Administrador extends Usuario {
     private ArrayList<Venta> listaVentas = new ArrayList<>();
-    private static final String RUTA_INVENTARIO = "src/files/inventario_zapatos.txt";
+    private static final String rutaInventario = "src/files/inventario_zapatos.txt";
     private FileManage fileManager = new FileManage("ventas.txt");
-
+    private FileManage fileManagerComisiones = new FileManage("comisiones.txt");
+    private static double salarioBase=2000000;
     public Administrador(String cedula, String nombre) {
         super(cedula, nombre);
     }
@@ -22,22 +23,14 @@ public class Administrador extends Usuario {
     }
 
     private static double porcentajeComision;
+    private static final double comisionPorVenta = 3000;
 
-    public double calcularComisionPorVenta(Venta venta, double porcentajeComision) {
-        if (venta == null || porcentajeComision < 0) {
-            return 0.0;
-        }
-        return venta.calcularTotalVenta() * (porcentajeComision / 100.0);
+    public double calcularComision(Vendedor vendedor) {
+        return vendedor.getVentasRealizadas() * comisionPorVenta;
     }
-
-    public double calcularComisionesTotales(ArrayList<Venta> ventas, Vendedor vendedorObjetivo, double porcentajeComision) {
-        double totalComision = 0.0;
-        for (Venta v : ventas) {
-            if (v.getVendedor().equals(vendedorObjetivo)) {
-                totalComision += calcularComisionPorVenta(v, porcentajeComision);
-            }
-        }
-        return totalComision;
+    public double calcularSalarioTotal(Vendedor vendedor) {
+        double comision = calcularComision(vendedor);
+        return salarioBase + comision;
     }
 
     public Venta buscarVenta(int numVenta) {
@@ -53,8 +46,17 @@ public class Administrador extends Usuario {
         return listaVentas;
     }
 
+    public static double getSalarioBase() {
+        return salarioBase;
+    }
+    public void mostrarVentas(){
+        System.out.println("Registro de ventas:");
+        for(Venta v : listaVentas){
+            System.out.printf("Venta #: %d, Comprador: %s, Telefono: %s, Vendedor: %s, Total:$%2.f\n",v.getNumeroVenta(),v.getNombreComprador(),v.getTelefonoComprador(),v.getVendedor(),v.getTotal(),v.getTotal());
+        }
+    }
     public void registrarNuevoZapato(Zapato nuevoZapato) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(RUTA_INVENTARIO, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaInventario, true))) {
             writer.write(nuevoZapato.toFormatoArchivo());
             writer.newLine();
             System.out.println("Zapato agregado al inventario: " + nuevoZapato.getCodigo());
@@ -95,5 +97,21 @@ public class Administrador extends Usuario {
                 vendedor.registrarVenta();
             }
         }
+    }
+    public void actualizarComisiones(ArrayList<Vendedor> vendedores) {
+
+        ArrayList<String> lineas = new ArrayList<>();
+
+        for (Vendedor vendedor : vendedores) {
+
+            double comision = calcularComision(vendedor);
+            String linea = vendedor.getNombre() + "|" +
+                    vendedor.getVentasRealizadas() + "|" +
+                    comision;
+
+            lineas.add(linea);
+        }
+
+        fileManagerComisiones.writeLinesToFile(lineas);
     }
 }

@@ -173,7 +173,7 @@ public class Menu {
         int i;
         do{
             System.out.println("------------------------------\n          MENÚ ADMINISTRADOR           \n------------------------------");
-            System.out.println("1. Consultar ventas por vendedor.\n2. Guardar datos del mes.\n0. Salir");
+            System.out.println("1. Consultar ventas por vendedor.\n2. Ver datos del mes.\n3.Registrar nuevos productos.\n 0. Salir");
             System.out.print("Seleccione una opcion: ");
             i = sc.nextInt();
             switch(i){
@@ -185,6 +185,9 @@ public class Menu {
                     break;
                 case 0:
                     System.out.println("Saliendo del menú del administrador.");
+                    break;
+                case 3:
+                    System.out.println("Registrar nuevos productos.");
                     break;
                 default:
                     System.out.println("Opción inválida");

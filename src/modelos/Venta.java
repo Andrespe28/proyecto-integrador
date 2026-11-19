@@ -24,6 +24,7 @@ public class Venta implements Guardable {
         fecha = new Date();
         detalles = new ArrayList<DetalleVenta>();
     }
+
     public double calcularTotalVenta(){
         double total=0;
         for(DetalleVenta det:detalles){

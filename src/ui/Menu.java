@@ -228,6 +228,7 @@ public class Menu {
                         case 2:
                             System.out.println("Ingrese el número de la tarjeta: ");
                             int numTarjeta=sc.nextInt();
+                            sc.nextLine();
                             PagoTarjeta pagoTarjeta=new PagoTarjeta(totalVenta,numTarjeta);
                             venta.setTotal(pagoTarjeta.procesarPago());
                             venta.setMetodoPago(pagoTarjeta);
@@ -270,8 +271,7 @@ public class Menu {
                     System.out.println("El producto está en la sección "+zapato.getSeccionBodega()+" de la bodega");
                     break;
                 case 6:
-                    System.out.println("Cierre de caja");
-                    //Mirar las ventas hechas por efectivo, transferencia y tarjeta
+                    administrador.realizarCierreDeCaja();
                     break;
                 case 0:
                     System.out.println("Saliendo del menú del vendedor.");
@@ -284,7 +284,7 @@ public class Menu {
         int i;
         do{
             System.out.println("------------------------------\n          MENÚ ADMINISTRADOR           \n------------------------------");
-            System.out.println("1. Ver datos del mes.\n2.Registrar nuevo producto o mas cantidad\n0. Salir");
+            System.out.println("1. Ver datos del mes.\n2. Registrar nuevo producto o mas cantidad\n0. Salir");
             System.out.print("Seleccione una opcion: ");
             i = sc.nextInt();
             switch(i){
@@ -363,8 +363,6 @@ public class Menu {
                             break;
                         case 2:
                             System.out.println("Listo, ahora vamos a escribir los datos del nuevo zapato");
-                            System.out.print("Escriba el codigo del zapto: ");
-                            String codigo=sc.nextLine();
                             System.out.print("Escriba el tipo de zapato: ");
                             String tipo=sc.nextLine();
                             System.out.print("Escriba la talla del zapato: ");
@@ -399,7 +397,7 @@ public class Menu {
                                     System.out.println("Opcion invalida");
                                     break;
                         }
-                        Zapato nuevoZ=new Zapato(codigo, tipo, talla, color, precio, cantidad, seccion, sexo);
+                        Zapato nuevoZ=new Zapato(tipo, talla, color, precio, cantidad, seccion, sexo);
                         inventario.getListaZapatos().add(nuevoZ);
                         inventario.guardarEnArchivo();
                         break;

@@ -7,6 +7,8 @@ public abstract class MetodoPago {
         this.monto = monto;
     }
 
+    public MetodoPago(){}
+
     abstract double procesarPago();
 
     public double getMonto() {

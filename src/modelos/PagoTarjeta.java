@@ -8,6 +8,7 @@ public class PagoTarjeta extends MetodoPago{
         super(monto);
         this.numeroTarjeta = numeroTarjeta;
     }
+    public PagoTarjeta(){}
 
     @Override
     public double procesarPago(){

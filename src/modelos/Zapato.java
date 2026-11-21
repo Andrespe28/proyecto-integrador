@@ -1,6 +1,7 @@
 package modelos;
 
 public class Zapato {
+    private static int contadorCodigo = 0;
     private String codigo;
     private String tipo;
     private int talla;
@@ -10,6 +11,17 @@ public class Zapato {
     private String seccionBodega;
     private String sexo;
 
+    public Zapato(String tipo, int talla, String color, double precio, int cantidadDisp, String seccionBodega, String sexo) {
+        contadorCodigo++;
+        this.codigo = String.format("%04d", contadorCodigo);
+        this.tipo = tipo;
+        this.talla = talla;
+        this.color = color;
+        this.precio = precio;
+        this.cantidadDisp = cantidadDisp;
+        this.seccionBodega = seccionBodega;
+        this.sexo = sexo;
+    }
     public Zapato(String codigo, String tipo, int talla, String color, double precio, int cantidadDisp, String seccionBodega, String sexo) {
         this.codigo = codigo;
         this.tipo = tipo;
@@ -19,6 +31,13 @@ public class Zapato {
         this.cantidadDisp = cantidadDisp;
         this.seccionBodega = seccionBodega;
         this.sexo = sexo;
+        try {
+            int numeroCodigo = Integer.parseInt(codigo.trim());
+            if (numeroCodigo > contadorCodigo) {
+                contadorCodigo = numeroCodigo;
+            }
+        } catch (NumberFormatException ignored) {
+        }
     }
 
     public void actualizarStock(int cantidad){

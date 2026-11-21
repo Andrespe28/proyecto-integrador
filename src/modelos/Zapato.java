@@ -41,9 +41,6 @@ public class Zapato {
             return true;
         }
     }
-    public String toFormatoArchivo() {
-        return codigo + "|" + tipo + "|" + talla + "|" + color + "|" + precio +"|"+ cantidadDisp +"|"+ seccionBodega +"|"+ sexo;
-    }
 
     public String getCodigo() {
         return codigo;
@@ -67,6 +64,10 @@ public class Zapato {
 
     public int getCantidadDisp() {
         return cantidadDisp;
+    }
+
+    public void setCantidadDisp(int cantidadDisp) {
+        this.cantidadDisp = cantidadDisp;
     }
 
     public String getSeccionBodega() {

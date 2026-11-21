@@ -55,16 +55,6 @@ public class Administrador extends Usuario {
             System.out.printf("Venta #: %d, Comprador: %s, Telefono: %s, Vendedor: %s, Total:$%2.f\n",v.getNumeroVenta(),v.getNombreComprador(),v.getTelefonoComprador(),v.getVendedor(),v.getTotal(),v.getTotal());
         }
     }
-    public void registrarNuevoZapato(Zapato nuevoZapato) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaInventario, true))) {
-            writer.write(nuevoZapato.toFormatoArchivo());
-            writer.newLine();
-            System.out.println("Zapato agregado al inventario: " + nuevoZapato.getCodigo());
-        } catch (IOException e) {
-            System.err.println("Error al escribir en inventario_zapatos.txt: " + e.getMessage());
-        }
-    }
-
     public void leerVentasDeArchivo(ArrayList<Vendedor> vendedores) {
         ArrayList<String> lineas = fileManager.getDataOfFile();
         if (lineas == null) {

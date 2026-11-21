@@ -89,4 +89,8 @@ public class Inventario implements Guardable {
             System.out.println("El archivo está vacío o no existe todavía.");
         }
     }
+
+    public ArrayList<Zapato> getListaZapatos() {
+        return listaZapatos;
+    }
 }

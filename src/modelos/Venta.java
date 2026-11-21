@@ -4,14 +4,14 @@ import interfaces.Guardable;
 import persistencia.FileManage;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Venta implements Guardable {
     private static int contadorVenta;
     private int numeroVenta;
     private String nombreComprador;
     private String telefonoComprador;
-    private Date fecha;
+    private LocalDate fecha;
     private ArrayList<DetalleVenta> detalles;
     private Vendedor vendedor;
     private MetodoPago metodoPago;
@@ -28,7 +28,7 @@ public class Venta implements Guardable {
         this.vendedor = vendedor;
         contadorVenta++;
         numeroVenta = contadorVenta;
-        fecha = new Date();
+        this.fecha = LocalDate.now();
         detalles = new ArrayList<DetalleVenta>();
     }
 
@@ -69,8 +69,12 @@ public class Venta implements Guardable {
         return telefonoComprador;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public Vendedor getVendedor() {
@@ -98,7 +102,10 @@ public class Venta implements Guardable {
                 nombreComprador + "|" +
                 telefonoComprador + "|" +
                 vendedor.getNombre() + "|" +
-                total;
+                total+"|"+
+                fecha+"|"+
+                metodoPago.getClass().getSimpleName()
+                ;
 
         fileManager.writeFile(linea);
     }

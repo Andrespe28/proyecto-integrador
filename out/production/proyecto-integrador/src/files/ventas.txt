@@ -1,1 +1,4 @@
-1|Pepa|2222|Paula|420000.0
+1|Pepito|325698417|Andres|610000.0|2026-11-21|PagoEfectivo
+2|Ana|3256987541|Majo|581400.0|2026-11-21|PagoTarjeta
+3|Pedro|4523698752|Paula|370000.0|2026-11-21|PagoTransferencia
+4|Nelson|5269874563|Andres|270000.0|2026-11-21|PagoEfectivo

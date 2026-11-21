@@ -1,5 +1,6 @@
 package modelos;
 import persistencia.FileManage;
+import java.time.LocalDate;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -57,10 +58,10 @@ public class Administrador extends Usuario {
     }
     public void leerVentasDeArchivo(ArrayList<Vendedor> vendedores) {
         ArrayList<String> lineas = fileManager.getDataOfFile();
-        if (lineas == null) {
-            return;
-        }
         for (String linea : lineas) {
+            if (linea == null || linea.trim().isEmpty()) {
+                return;
+            }
 
             String[] datos = linea.split("\\|");
 
@@ -69,6 +70,16 @@ public class Administrador extends Usuario {
             String telefono = datos[2];
             String nombreVendedor = datos[3];
             double total = Double.parseDouble(datos[4]);
+            LocalDate fechaVenta = LocalDate.parse(datos[5].trim());
+            MetodoPago metodoPago = null;
+            String tipoPago = datos[6].trim();
+            if (tipoPago.equalsIgnoreCase("Efectivo") || tipoPago.equalsIgnoreCase("PagoEfectivo")) {
+                metodoPago = new PagoEfectivo();
+            } else if (tipoPago.equalsIgnoreCase("Tarjeta") || tipoPago.equalsIgnoreCase("PagoTarjeta")) {
+                metodoPago = new PagoTarjeta();
+            } else if (tipoPago.equalsIgnoreCase("Transferencia") || tipoPago.equalsIgnoreCase("PagoTransferencia")) {
+                metodoPago = new PagoTransferencia();
+            }
 
             Vendedor vendedor = null;
 
@@ -82,11 +93,54 @@ public class Administrador extends Usuario {
             if (vendedor != null) {
                 Venta venta = new Venta(comprador, telefono, vendedor);
                 venta.setTotal(total);
+                venta.setMetodoPago(metodoPago);
 
                 agregarVenta(venta);
                 vendedor.registrarVenta();
             }
         }
+    }
+    public void realizarCierreDeCaja() {
+        LocalDate hoy = LocalDate.now();
+
+        ArrayList<Venta> ventasDeHoy = new ArrayList<>();
+        for (Venta v : listaVentas) {
+            if (v.getFecha() != null && v.getFecha().equals(hoy)) {
+                ventasDeHoy.add(v);
+            }
+        }
+        if (ventasDeHoy.isEmpty()) {
+            System.out.println("No hay ventas registradas el día de hoy (" + hoy + ") para cerrar caja.");
+            return;
+        }
+        double totalGeneral = 0.0;
+        double totalEfectivo = 0.0;
+        double totalTarjeta = 0.0;
+        double totalTransferencia = 0.0;
+
+        for (Venta v : listaVentas) {
+            double monto = v.getTotal();
+            totalGeneral += monto;
+
+            if (v.getMetodoPago() instanceof PagoEfectivo) {
+                totalEfectivo += monto;
+            } else if (v.getMetodoPago() instanceof PagoTarjeta) {
+                totalTarjeta += monto;
+            } else if (v.getMetodoPago() instanceof PagoTransferencia) {
+                totalTransferencia += monto;
+            }
+        }
+        String fechaHoy = LocalDate.now().toString();
+        System.out.println("\n==========================================");
+        System.out.println("       CIERRE DE CAJA - " + fechaHoy);
+        System.out.println("==========================================");
+        System.out.println("Total de ventas realizadas: " + listaVentas.size());
+        System.out.println("Total Efectivo:      $" + totalEfectivo);
+        System.out.println("Total Tarjeta:       $" + totalTarjeta);
+        System.out.println("Total Transferencia: $" + totalTransferencia);
+        System.out.println("------------------------------------------");
+        System.out.println("TOTAL RECAUDADO:     $" + totalGeneral);
+        System.out.println("------------------------------------------");
     }
     public void actualizarComisiones(ArrayList<Vendedor> vendedores) {
 

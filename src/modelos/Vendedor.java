@@ -1,6 +1,5 @@
 package modelos;
 
-import java.util.ArrayList;
 
 public class Vendedor extends Usuario{
     private int ventasRealizadas;
@@ -10,7 +9,6 @@ public class Vendedor extends Usuario{
         this.ventasRealizadas = 0;
 
     }
-
     public void registrarVenta(){
         ventasRealizadas++;
     }

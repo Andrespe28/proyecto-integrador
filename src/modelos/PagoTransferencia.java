@@ -7,6 +7,7 @@ public class PagoTransferencia extends MetodoPago{
         super(monto);
         this.banco = banco;
     }
+    public PagoTransferencia(){}
 
     public double procesarPago(){
         double total = getMonto();

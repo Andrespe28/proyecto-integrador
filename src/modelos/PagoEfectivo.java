@@ -8,6 +8,7 @@ public class PagoEfectivo extends MetodoPago{
         super(monto);
         this.dineroRecibido = dineroRecibido;
     }
+    public PagoEfectivo(){}
 
     @Override
     public double procesarPago(){

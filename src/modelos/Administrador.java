@@ -53,7 +53,7 @@ public class Administrador extends Usuario {
     public void mostrarVentas(){
         System.out.println("Registro de ventas:");
         for(Venta v : listaVentas){
-            System.out.printf("Venta #: %d, Comprador: %s, Telefono: %s, Vendedor: %s, Total:$%2.f\n",v.getNumeroVenta(),v.getNombreComprador(),v.getTelefonoComprador(),v.getVendedor(),v.getTotal(),v.getTotal());
+            System.out.printf("Venta #%d: Comprador: %s, Telefono: %s, Vendedor: %s, Total: $%.2f\n",v.getNumeroVenta(),v.getNombreComprador(),v.getTelefonoComprador(),v.getVendedor(),v.getTotal(),v.getTotal());
         }
     }
     public void leerVentasDeArchivo(ArrayList<Vendedor> vendedores) {

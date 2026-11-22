@@ -26,9 +26,6 @@ public class Inventario implements Guardable {
         return null;
     }
 
-    public void registrarVenta(String codigo) {
-        // Lógica de venta
-    }
 
     public double registrarIntercambio(String codigo1, String codigo2, int cant1, int cant2) {
         Zapato zapato1 =  buscarZapato(codigo1);
@@ -61,7 +58,6 @@ public class Inventario implements Guardable {
         }
 
         fileManager.writeLinesToFile(lineasInventario);
-        System.out.println("¡Inventario guardado con éxito en el archivo!");
     }
 
     @Override

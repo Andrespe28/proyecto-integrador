@@ -110,8 +110,18 @@ public class MenuVendedor {
                                 System.out.println("Ingrese la cantidad de dinero dado por el comprador: ");
                                 double dinero=sc.nextDouble();
                                 PagoEfectivo pagoEfectivo=new PagoEfectivo(dinero,total);
-                                double dineroDevuelto=pagoEfectivo.procesarPago();
-                                System.out.println("El vendedor debe devolver $"+dineroDevuelto);
+                                double dineroDevuelto;
+                                do{
+                                    dineroDevuelto=pagoEfectivo.procesarPago();
+                                    if(dineroDevuelto==-1){
+                                        System.out.println("Dinero insuficiente, por favor ingrese más dinero.\nIngrese el nuevo valor");
+                                    }
+                                    dinero=sc.nextDouble();
+                                    pagoEfectivo.setDineroRecibido(dinero);
+                                    dineroDevuelto=pagoEfectivo.procesarPago();
+                                    sc.nextLine();
+                                }while(dineroDevuelto==-1);
+
                                 venta.setTotal(total);
                                 venta.setMetodoPago(pagoEfectivo);
                                 break;
@@ -186,10 +196,13 @@ public class MenuVendedor {
                         inventario.guardarEnArchivo();
                         detalle=venta.new DetalleVenta(cantidad,z);
                         venta.agregarDetalle(detalle);
-                        System.out.println("¿Desea agregar otro producto?\n1. Si.\n2. No");
-                        respuesta=sc.nextInt();
-                        sc.nextLine();
+                        do{
+                            System.out.println("¿Desea agregar otro producto?\n1. Si.\n2. No");
+                            respuesta=sc.nextInt();
+                            sc.nextLine();
+                        }while(respuesta!=1 && respuesta!=2);
                     }while(respuesta!=2);
+
                     totalVenta=venta.calcularTotalVenta();
                     System.out.println("El total de la compra es: "+totalVenta);
                     int metodoPago;
@@ -206,8 +219,18 @@ public class MenuVendedor {
                             System.out.println("Ingrese la cantidad de dinero dado por el comprador: ");
                             double dinero=sc.nextDouble();
                             PagoEfectivo pagoEfectivo=new PagoEfectivo(dinero,totalVenta);
-                            double dineroDevuelto=pagoEfectivo.procesarPago();
-                            System.out.println("El vendedor debe devolver $"+dineroDevuelto);
+                            double dineroDevuelto;
+                            do{
+                                dineroDevuelto=pagoEfectivo.procesarPago();
+                                if(dineroDevuelto==-1){
+                                    System.out.println("Dinero insuficiente, por favor ingrese más dinero.\nIngrese el nuevo valor");
+                                }
+                                dinero=sc.nextDouble();
+                                pagoEfectivo.setDineroRecibido(dinero);
+                                dineroDevuelto=pagoEfectivo.procesarPago();
+                                sc.nextLine();
+                            }while(dineroDevuelto==-1);
+
                             venta.setTotal(totalVenta);
                             venta.setMetodoPago(pagoEfectivo);
                             break;

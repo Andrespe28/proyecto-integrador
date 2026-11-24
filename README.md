@@ -630,7 +630,7 @@ Las dos formas de escribir están en `FileManage`:
 - La fecha de la venta es la fecha del sistema.
 
 **Medios de pago**
-- **Efectivo:** el dinero recibido debe cubrir el total. Si no alcanza, la venta se cancela. Si sobra, se muestra el cambio.
+- **Efectivo:** el dinero recibido debe cubrir el total. Si no alcanza, pide un monto nuevamente. Si sobra, se muestra el cambio.
 - **Tarjeta:** se cobra un recargo del 2 % y el total guardado incluye ese recargo.
 - **Transferencia:** se pide el nombre del banco y se cobra el total sin recargo.
 

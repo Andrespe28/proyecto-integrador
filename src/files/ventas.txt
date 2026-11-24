@@ -3,3 +3,6 @@
 3|Pedro|4523698752|Paula|370000.0|2026-11-21|PagoTransferencia
 4|Nelson|5269874563|Andres|270000.0|2026-11-21|PagoEfectivo
 5|pepe|3498723|Majo|510000.0|2026-11-24|PagoTarjeta
+6|Gabriel|33313335|Majo|60000.0|2026-11-24|PagoEfectivo
+7|Gabriel|33313335|Majo|90000.0|2026-11-24|PagoEfectivo
+8|Nelson|555555|Andres|50000.0|2026-11-24|PagoEfectivo

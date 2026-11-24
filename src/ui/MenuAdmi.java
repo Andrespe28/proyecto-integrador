@@ -23,14 +23,14 @@ public class MenuAdmi {
         int i;
         do{
             System.out.println("------------------------------\n          MENÚ ADMINISTRADOR           \n------------------------------");
-            System.out.println("1. Ver datos del mes.\n2. Registrar nuevo producto o mas cantidad\n0. Salir");
+            System.out.println("1. Ver datos del mes.\n2. Registrar nuevo producto o mas cantidad \n3. Generar Archivo mensual. \n4. Consultar Archivo mensual. \n0. Salir");
             System.out.print("Seleccione una opción: ");
             i = sc.nextInt();
             switch(i){
 
                 case 1:
                     System.out.println("Ver datos del mes.");
-                    System.out.println("1. Ver salario total.\n2. Ver ventas.\nSeleccione una opción (1-2): ");
+                    System.out.println("1. Ver salario total.\n2. Ver ventas. \nSeleccione una opción (1-2): ");
                     int opcion=sc.nextInt();
                     sc.nextLine();
                     switch (opcion){
@@ -53,9 +53,6 @@ public class MenuAdmi {
                             System.out.println("Opción inválida");
 
                     }
-                    break;
-                case 0:
-                    System.out.println("Saliendo del menú del administrador.");
                     break;
                 case 2:
                     System.out.println("Registrar nuevos productos.");
@@ -141,6 +138,16 @@ public class MenuAdmi {
                         default:
                             System.out.println("Opción invalida");
                     }
+                    break;
+                case 3:
+                    administrador.generarArchivoMensual(inventario);
+                    break;
+                case 4:
+                    administrador.consultarArchivoMensual();
+                    System.out.println(" ");
+                    break;
+                case 0:
+                    System.out.println("Saliendo del menú del administrador.");
                     break;
                 default:
                     System.out.println("Opción inválida");

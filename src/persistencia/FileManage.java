@@ -45,34 +45,6 @@ public class FileManage {
         }
     }
 
-    public void updateFile(String oldLine, String newLine){
-        ArrayList<String> lines = this.getDataOfFile();
-        if(lines != null){
-            for (int i = 0; i < lines.size(); i++) {
-                if (lines.get(i).equals(oldLine)){
-                    lines.set(i, newLine);
-                    this.writeLinesToFile(lines);
-                    System.out.println("The line was updated successful");
-                    break;
-                }
-            }
-        }
-    }
-
-    public void deleteLineInFile(String line){
-        ArrayList<String> lines = this.getDataOfFile();
-        if(lines != null){
-            for (int i = 0; i < lines.size(); i++) {
-                if (lines.get(i).equals(line)){
-                    lines.remove(i);
-                    this.writeLinesToFile(lines);
-                    System.out.println("The line was deleted successful");
-                    break;
-                }
-            }
-        }
-    }
-
     public void writeLinesToFile(ArrayList<String> lines){
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(this.getFile()));

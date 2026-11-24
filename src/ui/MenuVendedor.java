@@ -105,10 +105,6 @@ public class MenuVendedor {
                                 double dinero=sc.nextDouble();
                                 PagoEfectivo pagoEfectivo=new PagoEfectivo(dinero,total);
                                 double dineroDevuelto=pagoEfectivo.procesarPago();
-                                if (dineroDevuelto < 0){
-                                    System.out.println("Venta cancelada por pago insuficiente.");
-                                    break;
-                                }
                                 System.out.println("El vendedor debe devolver $"+dineroDevuelto);
                                 venta.setTotal(total);
                                 venta.setMetodoPago(pagoEfectivo);
@@ -205,15 +201,9 @@ public class MenuVendedor {
                             double dinero=sc.nextDouble();
                             PagoEfectivo pagoEfectivo=new PagoEfectivo(dinero,totalVenta);
                             double dineroDevuelto=pagoEfectivo.procesarPago();
-                            if (dineroDevuelto < 0){
-                                System.out.println("Venta cancelada por pago insuficiente.");
-                                continue;
-                            }
-                            if (dineroDevuelto > 0){
-                                System.out.println("El vendedor debe devolver $"+dineroDevuelto);
-                                venta.setTotal(totalVenta);
-                                venta.setMetodoPago(pagoEfectivo);
-                            }
+                            System.out.println("El vendedor debe devolver $"+dineroDevuelto);
+                            venta.setTotal(totalVenta);
+                            venta.setMetodoPago(pagoEfectivo);
                             break;
                         case 2:
                             System.out.println("Ingrese el número de la tarjeta: ");

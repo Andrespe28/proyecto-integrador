@@ -1,4 +1,5 @@
-0001|Tenis|37|Negro|150000.0|13|A|Mujer
-0002|Deportivo|41|Verde|200000.0|7|A|Hombre
-0003|Tacones|34|Rojo|70000.0|1|A|Mujer
-0004|Tacones|32|Rojo|85000.0|4|A|Mujer
+0001|Tenis|37|Negro|150000.0|15|A|Mujer
+0002|Deportivo|41|Verde|200000.0|6|C|Hombre
+0003|Tacones|34|Rojo|70000.0|1|B|Mujer
+0004|Tacones|32|Rojo|85000.0|4|B|Mujer
+0005|Zandalia|31|Café|60000.0|12|D|Hombre

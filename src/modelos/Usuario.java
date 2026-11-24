@@ -17,7 +17,4 @@ public class Usuario {
         return cedula;
     }
 
-    public boolean iniciarSesion(){
-        return true;
-    }
 }

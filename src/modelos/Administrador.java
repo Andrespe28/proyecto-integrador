@@ -1,15 +1,18 @@
 package modelos;
+
 import persistencia.FileManage;
 import java.time.LocalDate;
-
 import java.io.*;
 import java.util.ArrayList;
+import java.time.YearMonth;
+import repositorios.ArchivoMensualRepository;
 
 public class Administrador extends Usuario {
     private ArrayList<Venta> listaVentas = new ArrayList<>();
     private static final String rutaInventario = "src/files/inventario_zapatos.txt";
     private FileManage fileManager = new FileManage("ventas.txt");
     private FileManage fileManagerComisiones = new FileManage("comisiones.txt");
+    private ArchivoMensualRepository archivoMensualRepository = new ArchivoMensualRepository();
     private static double salarioBase=2000000;
     public Administrador(String cedula, String nombre) {
         super(cedula, nombre);
@@ -28,6 +31,7 @@ public class Administrador extends Usuario {
     public double calcularComision(Vendedor vendedor) {
         return vendedor.getVentasRealizadas() * comisionPorVenta;
     }
+
     public double calcularSalarioTotal(Vendedor vendedor) {
         double comision = calcularComision(vendedor);
         return salarioBase + comision;
@@ -49,6 +53,7 @@ public class Administrador extends Usuario {
     public static double getSalarioBase() {
         return salarioBase;
     }
+
     public void mostrarVentas(){
         System.out.println("Registro de ventas:");
         for(Venta v : listaVentas){
@@ -59,7 +64,7 @@ public class Administrador extends Usuario {
         ArrayList<String> lineas = fileManager.getDataOfFile();
         for (String linea : lineas) {
             if (linea == null || linea.trim().isEmpty()) {
-                continue; //El return corta el método por completo
+                continue;
             }
 
             String[] datos = linea.split("\\|");
@@ -91,6 +96,7 @@ public class Administrador extends Usuario {
 
             if (vendedor != null) {
                 Venta venta = new Venta(comprador, telefono, vendedor);
+                venta.setFecha(fechaVenta);
                 venta.setTotal(total);
                 venta.setMetodoPago(metodoPago);
 
@@ -162,5 +168,87 @@ public class Administrador extends Usuario {
         }
 
         fileManagerComisiones.writeLinesToFile(lineas);
+    }
+
+    public void generarArchivoMensual(Inventario inventario){
+        YearMonth mesActual = YearMonth.now();
+        ArrayList<String> lineas = new ArrayList<>();
+
+        lineas.add("====================================");
+        lineas.add("INFORME MENSUAL: " + mesActual);
+        lineas.add("====================================");
+
+        lineas.add("");
+        lineas.add("--------------------------------");
+        lineas.add("INVENTARIO ACTUAL");
+        lineas.add("--------------------------------");
+
+        for (Zapato zapato : inventario.getListaZapatos()) {
+            String linea = zapato.getCodigo() + "|" +
+                    zapato.getTipo() + "|" +
+                    zapato.getTalla() + "|" +
+                    zapato.getColor() + "|" +
+                    zapato.getPrecio() + "|" +
+                    zapato.getCantidadDisp() + "|" +
+                    zapato.getSeccionBodega() + "|" +
+                    zapato.getSexo();
+            lineas.add(linea);
+        }
+        lineas.add("");
+        lineas.add("--------------------------------");
+        lineas.add("VENTAS DEL MES");
+        lineas.add("--------------------------------");
+
+        double totalMensual = 0;
+
+        for (Venta venta : listaVentas) {
+
+            if (venta.getFecha() != null && YearMonth.from(venta.getFecha()).equals(mesActual)) {
+                lineas.add("Venta: " + venta.getNumeroVenta());
+                lineas.add("Comprador: " + venta.getNombreComprador());
+                lineas.add("Teléfono: " + venta.getTelefonoComprador());
+                lineas.add("Vendedor: " + venta.getVendedor().getNombre());
+                lineas.add("Fecha: " + venta.getFecha());
+
+                String metodo;
+                if (venta.getMetodoPago() != null) {
+                    metodo = venta.getMetodoPago().getTipoPago();
+                } else {
+                    metodo = "No registrado";
+                }
+                lineas.add("Método de pago: " + metodo);
+
+                lineas.add("Total: $" + venta.getTotal());
+                for (Venta.DetalleVenta detalle : venta.getDetalles()) {
+                    Zapato zapato = detalle.getZapato();
+                    lineas.add("  Producto: " + zapato.getTipo() +
+                            " | Código: " + zapato.getCodigo() +
+                            " | Talla: " + zapato.getTalla() +
+                            " | Cantidad: " + detalle.getCantidad() +
+                            " | Precio unitario: $" + detalle.getPrecioUnitario() +
+                            " | Subtotal: $" + detalle.calcularSubtotal());
+                }
+                lineas.add("------------------------------------");
+                totalMensual += venta.getTotal();
+
+            }
+        }
+        lineas.add("TOTAL VENDIDO EN EL MES: $" + totalMensual);
+        lineas.add("------------------------------------");
+        archivoMensualRepository.guardar(lineas);
+        System.out.println("El archivo mensual se ha generado correctamente.");
+    }
+
+    public void consultarArchivoMensual() {
+        ArrayList<String> lineas = archivoMensualRepository.consultar();
+
+        if (lineas == null || lineas.isEmpty()) {
+            System.out.println("No existe un informe mensual guardado.");
+            return;
+        }
+        System.out.println("\n===== INFORME MENSUAL =====");
+        for (String linea : lineas) {
+            System.out.println(linea);
+        }
     }
 }

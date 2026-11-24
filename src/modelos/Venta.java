@@ -60,22 +60,6 @@ public class Venta implements Guardable {
         }
     }
 
-
-
-    public class DetalleVenta{
-        private int cantidad;
-        private double precioUnitario;
-        private Zapato zapato;
-
-        public DetalleVenta(int cantidad, Zapato zapato) {
-            this.cantidad = cantidad;
-            this.precioUnitario = zapato.getPrecio();
-            this.zapato = zapato;
-        }
-        public double calcularSubtotal(){
-            return cantidad * precioUnitario;}
-    }
-
     public String getNombreComprador() {
         return nombreComprador;
     }
@@ -104,6 +88,10 @@ public class Venta implements Guardable {
         this.metodoPago = metodoPago;
     }
 
+    public ArrayList<DetalleVenta> getDetalles() {
+        return detalles;
+    }
+
     public void setTotal(double total) {
         if (total >= 0) {
             this.total = total;
@@ -129,4 +117,33 @@ public class Venta implements Guardable {
 
         fileManager.writeFile(linea);
     }
+
+    public class DetalleVenta{
+        private int cantidad;
+        private double precioUnitario;
+        private Zapato zapato;
+
+        public DetalleVenta(int cantidad, Zapato zapato) {
+            this.cantidad = cantidad;
+            this.precioUnitario = zapato.getPrecio();
+            this.zapato = zapato;
+        }
+        public double calcularSubtotal(){
+            return cantidad * precioUnitario;
+        }
+
+        public int getCantidad() {
+            return cantidad;
+        }
+
+        public double getPrecioUnitario() {
+            return precioUnitario;
+        }
+
+        public Zapato getZapato() {
+            return zapato;
+        }
+    }
+
+
 }

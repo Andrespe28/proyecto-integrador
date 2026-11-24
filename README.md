@@ -164,9 +164,9 @@ proyecto-integrador/
     ├── Main.java                                 Punto de inicio - Lanza Menu
     │
     ├── files/
-    │    ├── comisiones.txt                       4 registros base
-    │    ├── inventario_zapatos.txt               3 registros base
-    │    └── ventas.txt                           4 registros base
+    │    ├── comisiones.txt                       3 registros base
+    │    ├── inventario_zapatos.txt               5 registros base
+    │    └── ventas.txt                           5 registros base
     │
     ├── interfaces/
     │    └── Guardable.java                       Contrato para interactuar con los archivos .txt
@@ -192,7 +192,8 @@ proyecto-integrador/
     │    └── MenuVendedor.java
 
 ```
-## Jerarquía de clases //creo que es el UML
+## Jerarquía de clases 
+El siguiente diagrama UML representa la estructura del sistema, las relaciones entre las clases y la aplicación de conceptos de herencia, asociación e interfaces.
 ## Formato de archivos de datos
 ## Cómo ejecutar el proyecto
 ## ArrayList vs Archivo de texto

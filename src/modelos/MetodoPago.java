@@ -4,12 +4,19 @@ public abstract class MetodoPago {
     protected double monto;
 
     public MetodoPago(double monto) {
-        this.monto = monto;
+        if (monto >= 0) {
+            this.monto = monto;
+        } else {
+            this.monto = 0;
+            System.out.println("El monto no puede ser negativo. Se asigna 0.");
+        }
     }
 
     public MetodoPago(){}
 
-    abstract double procesarPago();
+    public abstract double procesarPago();
+
+    public abstract String getTipoPago();
 
     public double getMonto() {
         return monto;

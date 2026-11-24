@@ -16,4 +16,9 @@ public class PagoTarjeta extends MetodoPago{
         System.out.println("Pago procesado con éxito. Total cobrado: $" + total);
         return total;
     }
+
+    @Override
+    public String getTipoPago(){
+        return "PagoTarjeta";
+    }
 }

@@ -65,7 +65,13 @@ public class MenuVendedor {
                     System.out.println("Ingrese la cantidad del segundo producto:");
                     int cantidad2 = sc.nextInt();
                     sc.nextLine();
-                    double diffPrecio = inventario.registrarIntercambio(codigo1, codigo2, cantidad1, cantidad2);
+                    double diffPrecio;
+                    try {
+                        diffPrecio = inventario.registrarIntercambio(codigo1, codigo2, cantidad1, cantidad2);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    }
 
                     if (diffPrecio > 0) {
                         System.out.println("\nRegistrar venta");
@@ -247,7 +253,11 @@ public class MenuVendedor {
                     System.out.println("Ingrese el código del producto");
                     String producto=sc.nextLine();
                     Zapato zapato=inventario.buscarZapato(producto);
-                    System.out.println("El producto está en la sección "+zapato.getSeccionBodega()+" de la bodega");
+                    if (zapato != null) {
+                        System.out.println("El producto está en la sección "+zapato.getSeccionBodega()+" de la bodega");
+                    } else {
+                        System.out.println("El producto no existe");
+                    }
                     break;
                 case 6:
                     administrador.realizarCierreDeCaja();

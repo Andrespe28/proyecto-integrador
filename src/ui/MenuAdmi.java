@@ -45,6 +45,7 @@ public class MenuAdmi {
                                 System.out.println("Salario base: $" + administrador.getSalarioBase());
                                 System.out.println("Salario total: $" + salarioTotal);
                             }
+                            administrador.vendedorConMasVentas(vendedores);
                             break;
                         case 2:
                             administrador.mostrarVentas();

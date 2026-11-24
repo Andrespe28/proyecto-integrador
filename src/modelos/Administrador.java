@@ -57,9 +57,36 @@ public class Administrador extends Usuario {
     public void mostrarVentas(){
         System.out.println("Registro de ventas:");
         for(Venta v : listaVentas){
-            System.out.printf("Venta #%d: Comprador: %s, Telefono: %s, Vendedor: %s, Total: $%.2f\n",v.getNumeroVenta(),v.getNombreComprador(),v.getTelefonoComprador(),v.getVendedor(),v.getTotal(),v.getTotal());
+            System.out.printf("Venta #%d: Comprador: %s, Teléfono: %s, Vendedor: %s, Total: $%.2f\n",v.getNumeroVenta(),v.getNombreComprador(),v.getTelefonoComprador(),v.getVendedor(),v.getTotal());
         }
     }
+
+    public void vendedorConMasVentas(ArrayList<Vendedor> vendedores) {
+        Vendedor mayor = null;
+        int masVentas = 0;
+
+        for (Vendedor vendedor : vendedores) {
+            int contador = 0;
+            for (Venta venta : listaVentas) {
+                if (venta.getFecha() != null
+                        && venta.getFecha().equals(LocalDate.now())
+                        && venta.getVendedor() == vendedor) {
+                    contador++;
+                }
+            }
+            if (contador > masVentas) {
+                masVentas = contador;
+                mayor = vendedor;
+            }
+        }
+        if (mayor == null) {
+            System.out.println("No hay ventas registradas hoy.");
+        } else {
+            System.out.println("Vendedor con más ventas: "
+                    + mayor.getNombre());
+        }
+    }
+
     public void leerVentasDeArchivo(ArrayList<Vendedor> vendedores) {
         ArrayList<String> lineas = fileManager.getDataOfFile();
         for (String linea : lineas) {
@@ -144,7 +171,7 @@ public class Administrador extends Usuario {
         System.out.println("\n==========================================");
         System.out.println("       CIERRE DE CAJA - " + fechaHoy);
         System.out.println("==========================================");
-        System.out.println("Total de ventas realizadas: " + listaVentas.size());
+        System.out.println("Total de ventas realizadas: " + ventasDeHoy.size());
         System.out.println("Total Efectivo:      $" + totalEfectivo);
         System.out.println("Total Tarjeta:       $" + totalTarjeta);
         System.out.println("Total Transferencia: $" + totalTransferencia);

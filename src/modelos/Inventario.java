@@ -40,9 +40,6 @@ public class Inventario implements Guardable {
         if (zapato2.getCantidadDisp() < cant2) {
             throw new IllegalArgumentException("No hay suficientes unidades del segundo producto.");
         }
-        if (zapato1.getCantidadDisp() < cant1) {
-            throw new IllegalArgumentException("No hay suficientes unidades del segundo producto.");
-        }
 
         zapato1.actualizarStock(cant1);
         zapato2.actualizarStock(-cant2);

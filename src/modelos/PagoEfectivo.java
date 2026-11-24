@@ -14,7 +14,7 @@ public class PagoEfectivo extends MetodoPago{
     public double procesarPago() {
         if (this.dineroRecibido < getMonto()) {
             System.out.println("Dinero insuficiente. Falta: $" + (getMonto() - this.dineroRecibido));
-            return 0;
+            return -1;
         }
         double cambio = this.dineroRecibido - getMonto();
         System.out.println("¡Pago exitoso! Cambio: $" + cambio);
@@ -23,6 +23,6 @@ public class PagoEfectivo extends MetodoPago{
 
     @Override
     public String getTipoPago(){
-        return "PagoEfectivo";
+        return "Efectivo";
     }
 }

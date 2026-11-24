@@ -19,6 +19,6 @@ public class PagoTarjeta extends MetodoPago{
 
     @Override
     public String getTipoPago(){
-        return "PagoTarjeta";
+        return "Tarjeta";
     }
 }

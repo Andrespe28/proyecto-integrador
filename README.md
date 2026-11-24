@@ -85,7 +85,7 @@ En `Administrador.realizarCierreDeCaja()`, el cierre recorre las ventas del día
 + En `Venta, setTotal(...)` válida que el total no sea negativo.
 
 ### Interfaces
-El proyecto tiene solo una interfaz utilizada por dos clases `Venta` e `Intercambio`
+El proyecto tiene solo una interfaz utilizada por dos clases `Venta` e `Inventario`
 
 | Interfaz | Propósito |
 |---|---|

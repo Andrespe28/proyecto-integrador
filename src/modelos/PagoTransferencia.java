@@ -1,7 +1,7 @@
 package modelos;
 
 public class PagoTransferencia extends MetodoPago{
-    private String banco;;
+    private String banco;
 
     public PagoTransferencia(String banco,double monto){
         super(monto);
@@ -9,9 +9,15 @@ public class PagoTransferencia extends MetodoPago{
     }
     public PagoTransferencia(){}
 
+    @Override
     public double procesarPago(){
         double total = getMonto();
-        System.out.println("Transferencia procesada con éxito. Total : $" +total);
+        System.out.println("Transferencia procesada con éxito a través del banco:" + banco +". El total fue: $" +total);
         return total;
+    }
+
+    @Override
+    public String getTipoPago(){
+        return "Transferencia";
     }
 }

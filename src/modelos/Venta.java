@@ -43,9 +43,24 @@ public class Venta implements Guardable {
         detalles.add(detalle);
     }
 
-
     @Override
-    public void leerDeArchivo(){}
+    public void leerDeArchivo() {
+        ArrayList<String> lineas = fileManager.getDataOfFile();
+
+        if (lineas != null && !lineas.isEmpty()) {
+            System.out.println("=== REGISTRO DE VENTAS EN ARCHIVO ===");
+            for (String linea : lineas) {
+                if (linea == null || linea.trim().isEmpty()) {
+                    continue;
+                }
+                System.out.println(linea);
+            }
+        } else {
+            System.out.println("El archivo de ventas está vacío o no existe todavía.");
+        }
+    }
+
+
 
     public class DetalleVenta{
         private int cantidad;
@@ -90,12 +105,17 @@ public class Venta implements Guardable {
     }
 
     public void setTotal(double total) {
-        this.total = total;
+        if (total >= 0) {
+            this.total = total;
+        } else {
+            System.out.println("El total de la venta no puede ser negativo.");
+        }
     }
 
     public double getTotal() {
         return total;
     }
+
     @Override
     public void guardarEnArchivo() {
         String linea = numeroVenta + "|" +

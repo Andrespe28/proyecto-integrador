@@ -23,7 +23,6 @@ public class Administrador extends Usuario {
         listaVentas.add(venta);
     }
 
-    private static double porcentajeComision;
     private static final double comisionPorVenta = 3000;
 
     public double calcularComision(Vendedor vendedor) {
@@ -60,7 +59,7 @@ public class Administrador extends Usuario {
         ArrayList<String> lineas = fileManager.getDataOfFile();
         for (String linea : lineas) {
             if (linea == null || linea.trim().isEmpty()) {
-                return;
+                continue; //El return corta el método por completo
             }
 
             String[] datos = linea.split("\\|");
@@ -100,6 +99,7 @@ public class Administrador extends Usuario {
             }
         }
     }
+
     public void realizarCierreDeCaja() {
         LocalDate hoy = LocalDate.now();
 
@@ -110,7 +110,7 @@ public class Administrador extends Usuario {
             }
         }
         if (ventasDeHoy.isEmpty()) {
-            System.out.println("No hay ventas registradas el día de hoy (" + hoy + ") para cerrar caja.");
+            System.out.println("No hay ventas registradas hasta el día de hoy (" + hoy + ") para cerrar caja.");
             return;
         }
         double totalGeneral = 0.0;
@@ -122,12 +122,16 @@ public class Administrador extends Usuario {
             double monto = v.getTotal();
             totalGeneral += monto;
 
-            if (v.getMetodoPago() instanceof PagoEfectivo) {
-                totalEfectivo += monto;
-            } else if (v.getMetodoPago() instanceof PagoTarjeta) {
-                totalTarjeta += monto;
-            } else if (v.getMetodoPago() instanceof PagoTransferencia) {
-                totalTransferencia += monto;
+            MetodoPago metodo = v.getMetodoPago();
+            if (metodo != null) {
+                String tipo = metodo.getTipoPago();
+                if ("Efectivo".equalsIgnoreCase(tipo)) {
+                    totalEfectivo += monto;
+                } else if ("Tarjeta".equalsIgnoreCase(tipo)) {
+                    totalTarjeta += monto;
+                } else if ("Transferencia".equalsIgnoreCase(tipo)) {
+                    totalTransferencia += monto;
+                }
             }
         }
         String fechaHoy = LocalDate.now().toString();
@@ -142,6 +146,7 @@ public class Administrador extends Usuario {
         System.out.println("TOTAL RECAUDADO:     $" + totalGeneral);
         System.out.println("------------------------------------------");
     }
+
     public void actualizarComisiones(ArrayList<Vendedor> vendedores) {
 
         ArrayList<String> lineas = new ArrayList<>();

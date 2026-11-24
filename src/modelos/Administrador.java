@@ -118,7 +118,7 @@ public class Administrador extends Usuario {
         double totalTarjeta = 0.0;
         double totalTransferencia = 0.0;
 
-        for (Venta v : listaVentas) {
+        for (Venta v : ventasDeHoy) {
             double monto = v.getTotal();
             totalGeneral += monto;
 

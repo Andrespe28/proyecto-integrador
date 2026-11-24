@@ -105,6 +105,10 @@ public class MenuVendedor {
                                 double dinero=sc.nextDouble();
                                 PagoEfectivo pagoEfectivo=new PagoEfectivo(dinero,total);
                                 double dineroDevuelto=pagoEfectivo.procesarPago();
+                                if (dineroDevuelto < 0){
+                                    System.out.println("Venta cancelada por pago insuficiente.");
+                                    break;
+                                }
                                 System.out.println("El vendedor debe devolver $"+dineroDevuelto);
                                 venta.setTotal(total);
                                 venta.setMetodoPago(pagoEfectivo);
@@ -167,6 +171,10 @@ public class MenuVendedor {
                         System.out.println("Ingrese la cantidad de unidades del producto: ");
                         cantidad=sc.nextInt();
                         sc.nextLine();
+                        if (cantidad <= 0) {
+                            System.out.println("La cantidad debe ser mayor que cero.");
+                            continue;
+                        }
                         if(cantidad> z.getCantidadDisp()){
                             System.out.println("No hay suficientes unidades. Por favor ingrese nuevamente");
                             System.out.println("Cantidades disponibles: "+z.getCantidadDisp());
@@ -197,9 +205,15 @@ public class MenuVendedor {
                             double dinero=sc.nextDouble();
                             PagoEfectivo pagoEfectivo=new PagoEfectivo(dinero,totalVenta);
                             double dineroDevuelto=pagoEfectivo.procesarPago();
-                            System.out.println("El vendedor debe devolver $"+dineroDevuelto);
-                            venta.setTotal(totalVenta);
-                            venta.setMetodoPago(pagoEfectivo);
+                            if (dineroDevuelto < 0){
+                                System.out.println("Venta cancelada por pago insuficiente.");
+                                continue;
+                            }
+                            if (dineroDevuelto > 0){
+                                System.out.println("El vendedor debe devolver $"+dineroDevuelto);
+                                venta.setTotal(totalVenta);
+                                venta.setMetodoPago(pagoEfectivo);
+                            }
                             break;
                         case 2:
                             System.out.println("Ingrese el número de la tarjeta: ");
@@ -219,7 +233,6 @@ public class MenuVendedor {
                         default:
                             System.out.println("Opción invalida. Intente nuevamente.");
                     }
-
                     vendedor.registrarVenta();
                     administrador.agregarVenta(venta);
                     venta.guardarEnArchivo();

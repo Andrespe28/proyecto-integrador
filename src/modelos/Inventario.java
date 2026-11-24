@@ -28,14 +28,25 @@ public class Inventario implements Guardable {
 
 
     public double registrarIntercambio(String codigo1, String codigo2, int cant1, int cant2) {
-        Zapato zapato1 =  buscarZapato(codigo1);
+        Zapato zapato1 = buscarZapato(codigo1);
+        Zapato zapato2 = buscarZapato(codigo2);
+
+        if (zapato1 == null || zapato2 == null) {
+            throw new IllegalArgumentException("Uno o ambos productos no existen.");
+        }
+        if (cant1 <= 0 || cant2 <= 0) {
+            throw new IllegalArgumentException("Las cantidades deben ser mayores que cero.");
+        }
+        if (zapato2.getCantidadDisp() < cant2) {
+            throw new IllegalArgumentException("No hay suficientes unidades del segundo producto.");
+        }
+        if (zapato1.getCantidadDisp() < cant1) {
+            throw new IllegalArgumentException("No hay suficientes unidades del segundo producto.");
+        }
+
         zapato1.actualizarStock(cant1);
-
-        Zapato zapato2 =  buscarZapato(codigo2);
         zapato2.actualizarStock(-cant2);
-
-
-        double diffPrecio = zapato2.getPrecio()-zapato1.getPrecio();
+        double diffPrecio = zapato2.getPrecio() - zapato1.getPrecio();
         guardarEnArchivo();
         return diffPrecio;
     }

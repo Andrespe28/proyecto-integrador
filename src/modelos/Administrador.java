@@ -9,17 +9,12 @@ import repositorios.ArchivoMensualRepository;
 
 public class Administrador extends Usuario {
     private ArrayList<Venta> listaVentas = new ArrayList<>();
-    private static final String rutaInventario = "src/files/inventario_zapatos.txt";
     private FileManage fileManager = new FileManage("ventas.txt");
     private FileManage fileManagerComisiones = new FileManage("comisiones.txt");
     private ArchivoMensualRepository archivoMensualRepository = new ArchivoMensualRepository();
     private static double salarioBase=2000000;
     public Administrador(String cedula, String nombre) {
         super(cedula, nombre);
-    }
-
-    public void setListaVentas(ArrayList<Venta> listaVentas) {
-        this.listaVentas = listaVentas;
     }
 
     public void agregarVenta(Venta venta){

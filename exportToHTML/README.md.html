@@ -1,0 +1,683 @@
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #0033b3;}
+.s1 { color: #080808;}
+.s2 { color: #871094; font-style: italic;}
+.s3 { color: #067d17;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+README.md</font>
+</center></td></tr></table>
+<pre><span class="s0"># </span><span class="s1">CalzaTodo: sistema de ventas e inventario</span>
+
+<span class="s1">Programa de consola en Java para la tienda de zapatos CalzaTodo. Permite registrar ventas e intercambios, consultar y actualizar el inventario, hacer el cierre de caja del día y calcular las comisiones y el salario de los vendedores. Los datos se guardan en archivos `.txt`.</span>
+
+<span class="s1">Proyecto integrador del curso **Programación Orientada a Objetos (POO)**, Universidad de La Sabana, 2026.</span>
+
+<span class="s0">## </span><span class="s1">Integrantes</span>
+
+<span class="s0">| </span><span class="s1">Nombre </span><span class="s0">| </span><span class="s1">GitHub </span><span class="s0">|</span>
+<span class="s0">|---|---|</span>
+<span class="s0">| </span><span class="s1">María José López Sánchez </span><span class="s0">| </span><span class="s1">[majolosa1408-a11y](https://github.com/majolosa1408-a11y) </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">María Paula Gómez Mateus </span><span class="s0">| </span><span class="s1">[PAU1724](https://github.com/PAU1724) </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">Andrés Felipe Peña Cristancho </span><span class="s0">| </span><span class="s1">[Andrespe28](https://github.com/Andrespe28) </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">David Eduardo Díaz Arciniegas </span><span class="s0">| </span><span class="s1">[sarchyx6](https://github.com/sarchyx6) </span><span class="s0">|</span>
+
+<span class="s0">## </span><span class="s1">Objetivo</span>
+
+<span class="s1">Aplicar herencia, polimorfismo, encapsulamiento, abstracción e interfaces en un caso real: una tienda con dos roles (vendedor y administrador), varios medios de pago y un inventario. También mostrar cómo se combinan los datos en memoria (`ArrayList`) con el almacenamiento permanente en archivos de texto.</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Contenido</span>
+
+<span class="s0">1. </span><span class="s1">[Qué hace el sistema](#qué-hace-el-sistema)</span>
+<span class="s0">2. </span><span class="s1">[Cómo ejecutar el proyecto](#cómo-ejecutar-el-proyecto)</span>
+<span class="s0">3. </span><span class="s1">[Uso de los menús](#uso-de-los-menús)</span>
+<span class="s0">4. </span><span class="s1">[Estructura del proyecto](#estructura-del-proyecto)</span>
+<span class="s0">5. </span><span class="s1">[Arquitectura](#arquitectura)</span>
+<span class="s0">6. </span><span class="s1">[Diagrama de clases](#diagrama-de-clases)</span>
+<span class="s0">7. </span><span class="s1">[Conceptos de POO aplicados](#conceptos-de-poo-aplicados)</span>
+<span class="s0">8. </span><span class="s1">[Formato de los archivos de datos](#formato-de-los-archivos-de-datos)</span>
+<span class="s0">9. </span><span class="s1">[ArrayList vs archivo de texto](#arraylist-vs-archivo-de-texto)</span>
+<span class="s0">10. </span><span class="s1">[Reglas de negocio](#reglas-de-negocio)</span>
+<span class="s0">11. </span><span class="s1">[Limitaciones conocidas](#limitaciones-conocidas)</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Qué hace el sistema</span>
+
+<span class="s1">**Vendedor**</span>
+<span class="s0">- </span><span class="s1">Consultar el inventario completo o un zapato por código.</span>
+<span class="s0">- </span><span class="s1">Registrar una venta con uno o varios productos y cobrarla en efectivo, tarjeta o transferencia.</span>
+<span class="s0">- </span><span class="s1">Registrar un intercambio de productos y cobrar la diferencia si el nuevo es más caro.</span>
+<span class="s0">- </span><span class="s1">Consultar el nombre y teléfono del comprador a partir del número de venta.</span>
+<span class="s0">- </span><span class="s1">Buscar en qué sección de la bodega está un producto.</span>
+<span class="s0">- </span><span class="s1">Hacer el cierre de caja del día.</span>
+
+<span class="s1">**Administrador**</span>
+<span class="s0">- </span><span class="s1">Ver las ventas, comisiones y salario total de cada vendedor.</span>
+<span class="s0">- </span><span class="s1">Ver el registro de ventas.</span>
+<span class="s0">- </span><span class="s1">Agregar unidades a un zapato existente o crear un zapato nuevo.</span>
+
+<span class="s0">### </span><span class="s1">Entidades principales</span>
+
+<span class="s0">| </span><span class="s1">Clase </span><span class="s0">| </span><span class="s1">Qué representa </span><span class="s0">|</span>
+<span class="s0">|---|---|</span>
+<span class="s0">| </span><span class="s1">`Usuario` </span><span class="s0">| </span><span class="s1">Persona que usa el sistema (cédula y nombre). Es la clase padre de `Vendedor` y `Administrador`. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Vendedor` </span><span class="s0">| </span><span class="s1">Registra ventas. Lleva la cuenta de cuántas ventas ha hecho. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Administrador` </span><span class="s0">| </span><span class="s1">Guarda la lista de ventas, calcula comisiones y salarios, carga las ventas desde archivo y hace el cierre de caja. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Zapato` </span><span class="s0">| </span><span class="s1">Producto: código, tipo, talla, color, precio, unidades disponibles, sección de bodega y sexo. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Inventario` </span><span class="s0">| </span><span class="s1">Lista de zapatos (`listaZapatos`) con búsqueda, intercambios y lectura/escritura en archivo. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Venta` </span><span class="s0">| </span><span class="s1">Una venta: número, comprador, teléfono, vendedor, fecha, productos (`DetalleVenta`), método de pago y total. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Venta.DetalleVenta` </span><span class="s0">| </span><span class="s1">Una línea de la venta: zapato, cantidad y precio unitario. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`MetodoPago` </span><span class="s0">| </span><span class="s1">Clase abstracta para los medios de pago: `PagoEfectivo`, `PagoTarjeta`, `PagoTransferencia`. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`FileManage` </span><span class="s0">| </span><span class="s1">Lee y escribe líneas en los archivos de `src/files/`. </span><span class="s0">|</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Cómo ejecutar el proyecto</span>
+
+<span class="s0">### </span><span class="s1">Requisitos</span>
+
+<span class="s0">- </span><span class="s1">JDK 8 o superior. El proyecto está configurado en IntelliJ con OpenJDK 27, pero solo usa la biblioteca estándar (`java.util`, `java.io`, `java.time`).</span>
+<span class="s0">- </span><span class="s1">No tiene dependencias externas.</span>
+
+<span class="s0">&gt; </span><span class="s1">**Importante:** las rutas de los archivos son relativas (`src/files/...`). El programa se debe ejecutar desde la **carpeta raíz del proyecto**. Si se ejecuta desde otra carpeta, no encuentra los `.txt`.</span>
+
+<span class="s0">### </span><span class="s1">Opción 1: IntelliJ IDEA</span>
+
+<span class="s0">1. </span><span class="s1">Abrir la carpeta `proyecto-integrador` como proyecto.</span>
+<span class="s0">2. </span><span class="s1">Verificar que haya un JDK configurado en *File → Project Structure → Project SDK*.</span>
+<span class="s0">3. </span><span class="s1">Ejecutar `src/Main.java`. IntelliJ usa la raíz del proyecto como directorio de trabajo por defecto.</span>
+
+<span class="s0">### </span><span class="s1">Opción 2: terminal</span>
+
+<span class="s1">Desde la raíz del proyecto:</span>
+
+<span class="s1">**Linux / macOS / Git Bash**</span>
+<span class="s0">```</span><span class="s2">bash</span>
+<span class="s3">javac -encoding UTF-8 -d out $(find src -name &quot;*.java&quot;)</span>
+<span class="s3">java -cp out Main</span>
+<span class="s0">```</span>
+
+<span class="s1">**Windows (PowerShell)**</span>
+<span class="s0">```</span><span class="s2">powershell</span>
+<span class="s3">javac -encoding UTF-8 -d out (Get-ChildItem -Recurse src -Filter *.java).FullName</span>
+<span class="s3">java -cp out Main</span>
+<span class="s0">```</span>
+
+<span class="s1">La carpeta `out/` está en `.gitignore`, así que los `.class` compilados no se suben al repositorio.</span>
+
+<span class="s0">### </span><span class="s1">Usuarios de prueba</span>
+
+<span class="s1">Los usuarios están definidos en `Menu.iniciarMenu()`. No hay inicio de sesión: al registrar una venta se escribe el nombre del vendedor (sin importar mayúsculas).</span>
+
+<span class="s0">| </span><span class="s1">Rol </span><span class="s0">| </span><span class="s1">Nombre </span><span class="s0">| </span><span class="s1">Cédula </span><span class="s0">|</span>
+<span class="s0">|---|---|---|</span>
+<span class="s0">| </span><span class="s1">Vendedor </span><span class="s0">| </span><span class="s1">Paula </span><span class="s0">| </span><span class="s1">35400000 </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">Vendedor </span><span class="s0">| </span><span class="s1">Majo </span><span class="s0">| </span><span class="s1">11000000 </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">Vendedor </span><span class="s0">| </span><span class="s1">Andres </span><span class="s0">| </span><span class="s1">50100000 </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">Administrador </span><span class="s0">| </span><span class="s1">David </span><span class="s0">| </span><span class="s1">12000000 </span><span class="s0">|</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Uso de los menús</span>
+
+<span class="s0">### </span><span class="s1">Menú principal</span>
+
+<span class="s0">```</span>
+<span class="s3">------------------------------</span>
+          <span class="s3">CALZATODO</span>
+<span class="s3">------------------------------</span>
+<span class="s3">1. Menú Vendedor.</span>
+<span class="s3">2. Menú Administrador.</span>
+<span class="s3">0. Salir</span>
+<span class="s0">```</span>
+
+<span class="s0">### </span><span class="s1">Menú vendedor</span>
+
+<span class="s0">| </span><span class="s1">Opción </span><span class="s0">| </span><span class="s1">Acción </span><span class="s0">|</span>
+<span class="s0">|---|---|</span>
+<span class="s0">| </span><span class="s1">1 </span><span class="s0">| </span><span class="s1">Consultar inventario: por código o el inventario completo. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">2 </span><span class="s0">| </span><span class="s1">Registrar intercambio: códigos y cantidades del producto que devuelve el cliente y del que se lleva. Si el nuevo es más caro, se registra una venta por la diferencia. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">3 </span><span class="s0">| </span><span class="s1">Registrar venta: vendedor, comprador, teléfono, productos (código y cantidad, se pueden agregar varios) y método de pago. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">4 </span><span class="s0">| </span><span class="s1">Consultar datos del comprador a partir del número de venta. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">5 </span><span class="s0">| </span><span class="s1">Buscar la sección de bodega de un producto. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">6 </span><span class="s0">| </span><span class="s1">Cierre de caja del día. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">0 </span><span class="s0">| </span><span class="s1">Volver al menú principal. </span><span class="s0">|</span>
+
+<span class="s0">### </span><span class="s1">Menú administrador</span>
+
+<span class="s0">| </span><span class="s1">Opción </span><span class="s0">| </span><span class="s1">Acción </span><span class="s0">|</span>
+<span class="s0">|---|---|</span>
+<span class="s0">| </span><span class="s1">1 </span><span class="s0">| </span><span class="s1">Ver datos del mes: **1.** salario total de cada vendedor (ventas, comisión, salario base y total) o **2.** registro de ventas. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">2 </span><span class="s0">| </span><span class="s1">Registrar producto: **1.** sumar unidades a un zapato existente o **2.** crear un zapato nuevo (el código se genera solo). </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">0 </span><span class="s0">| </span><span class="s1">Volver al menú principal. </span><span class="s0">|</span>
+
+<span class="s0">### </span><span class="s1">Ejemplo: cierre de caja</span>
+
+<span class="s1">Con las 4 ventas de ejemplo de `ventas.txt`, todas del mismo día:</span>
+
+<span class="s0">```</span>
+<span class="s3">==========================================</span>
+       <span class="s3">CIERRE DE CAJA - 2026-11-21</span>
+<span class="s3">==========================================</span>
+<span class="s3">Total de ventas realizadas: 4</span>
+<span class="s3">Total Efectivo:      $880000.0</span>
+<span class="s3">Total Tarjeta:       $581400.0</span>
+<span class="s3">Total Transferencia: $370000.0</span>
+<span class="s3">------------------------------------------</span>
+<span class="s3">TOTAL RECAUDADO:     $1831400.0</span>
+<span class="s3">------------------------------------------</span>
+<span class="s0">```</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Estructura del proyecto</span>
+
+<span class="s0">```</span>
+<span class="s3">proyecto-integrador/</span>
+<span class="s3">├── src/</span>
+<span class="s3">│   ├── Main.java                     Punto de entrada. Crea el Menu y lo inicia.</span>
+<span class="s3">│   │</span>
+<span class="s3">│   ├── ui/</span>
+<span class="s3">│   │   ├── Menu.java                 Menú principal. Crea vendedores y administrador,</span>
+<span class="s3">│   │   │                             carga inventario y ventas, y abre los submenús.</span>
+<span class="s3">│   │   ├── MenuVendedor.java         Opciones del vendedor (ventas, intercambios, cierre de caja).</span>
+<span class="s3">│   │   └── MenuAdmi.java             Opciones del administrador (salarios, ventas, productos).</span>
+<span class="s3">│   │</span>
+<span class="s3">│   ├── modelos/</span>
+<span class="s3">│   │   ├── Usuario.java              Clase padre de Vendedor y Administrador.</span>
+<span class="s3">│   │   ├── Vendedor.java</span>
+<span class="s3">│   │   ├── Administrador.java</span>
+<span class="s3">│   │   ├── Zapato.java</span>
+<span class="s3">│   │   ├── Inventario.java           Implementa Guardable.</span>
+<span class="s3">│   │   ├── Venta.java                Implementa Guardable. Contiene la clase interna DetalleVenta.</span>
+<span class="s3">│   │   ├── MetodoPago.java           Clase abstracta.</span>
+<span class="s3">│   │   ├── PagoEfectivo.java</span>
+<span class="s3">│   │   ├── PagoTarjeta.java</span>
+<span class="s3">│   │   └── PagoTransferencia.java</span>
+<span class="s3">│   │</span>
+<span class="s3">│   ├── interfaces/</span>
+<span class="s3">│   │   └── Guardable.java            Contrato: guardarEnArchivo() y leerDeArchivo().</span>
+<span class="s3">│   │</span>
+<span class="s3">│   ├── persistencia/</span>
+<span class="s3">│   │   └── FileManage.java           Leer, agregar, reemplazar y borrar líneas en los .txt.</span>
+<span class="s3">│   │</span>
+<span class="s3">│   └── files/</span>
+<span class="s3">│       ├── inventario_zapatos.txt    4 zapatos de ejemplo.</span>
+<span class="s3">│       ├── ventas.txt                4 ventas de ejemplo.</span>
+<span class="s3">│       ├── comisiones.txt            3 líneas, una por vendedor (se regenera al iniciar).</span>
+<span class="s3">│       └── Archivo_Mensual.txt       Vacío. Todavía no se usa en el código.</span>
+<span class="s3">│</span>
+<span class="s3">├── .idea/                            Configuración de IntelliJ IDEA.</span>
+<span class="s3">├── .classpath, .project,</span>
+<span class="s3">│   *.eml, *.userlibraries            Configuración en formato Eclipse.</span>
+<span class="s3">├── .gitignore                        Excluye la carpeta out/.</span>
+<span class="s3">└── README.md</span>
+<span class="s0">```</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Arquitectura</span>
+
+<span class="s1">El código está separado en tres capas, una por paquete:</span>
+
+<span class="s0">| </span><span class="s1">Capa </span><span class="s0">| </span><span class="s1">Paquete </span><span class="s0">| </span><span class="s1">Responsabilidad </span><span class="s0">|</span>
+<span class="s0">|---|---|---|</span>
+<span class="s0">| </span><span class="s1">Interfaz (consola) </span><span class="s0">| </span><span class="s1">`ui` </span><span class="s0">| </span><span class="s1">Mostrar menús, leer lo que escribe el usuario y llamar a los métodos del modelo. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">Dominio </span><span class="s0">| </span><span class="s1">`modelos` </span><span class="s0">| </span><span class="s1">Entidades, cálculos (totales, comisiones, cambio) y validaciones. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">Persistencia </span><span class="s0">| </span><span class="s1">`persistencia`, `interfaces` </span><span class="s0">| </span><span class="s1">Leer y escribir líneas en los archivos `.txt`. </span><span class="s0">|</span>
+
+<span class="s1">Algunas clases del modelo también imprimen en consola (por ejemplo `Zapato.mostrarZapato()` y `Administrador.realizarCierreDeCaja()`), así que la separación entre capas no es estricta.</span>
+
+<span class="s0">### </span><span class="s1">Al iniciar el programa</span>
+
+<span class="s0">1. </span><span class="s1">`Menu()` crea el `Inventario` y llama a `leerDeArchivo()`, que carga `inventario_zapatos.txt` en `listaZapatos`.</span>
+<span class="s0">2. </span><span class="s1">`iniciarMenu()` crea los 3 vendedores y el administrador.</span>
+<span class="s0">3. </span><span class="s1">`Administrador.leerVentasDeArchivo()` carga `ventas.txt` en `listaVentas` y suma una venta a cada vendedor según el nombre guardado.</span>
+<span class="s0">4. </span><span class="s1">`Administrador.actualizarComisiones()` reescribe `comisiones.txt` con los datos recién cargados.</span>
+
+<span class="s0">### </span><span class="s1">Flujo de una venta (opción 3 del menú vendedor)</span>
+
+<span class="s0">```</span>
+<span class="s3">Vendedor en consola</span>
+  <span class="s3">│  Nombre del vendedor, comprador y teléfono</span>
+  <span class="s3">▼</span>
+<span class="s3">MenuVendedor</span>
+  <span class="s3">│  Busca el Vendedor por nombre y crea la Venta (número consecutivo, fecha de hoy)</span>
+  <span class="s3">▼</span>
+<span class="s3">Por cada producto</span>
+  <span class="s3">│  1. Inventario.buscarZapato(codigo)</span>
+  <span class="s3">│  2. Valida que la cantidad sea &gt; 0 y no supere el stock</span>
+  <span class="s3">│  3. Zapato.actualizarStock(-cantidad) y guarda inventario_zapatos.txt</span>
+  <span class="s3">│  4. Crea un DetalleVenta y lo agrega a la Venta</span>
+  <span class="s3">▼</span>
+<span class="s3">Venta.calcularTotalVenta()  →  suma de los subtotales</span>
+  <span class="s3">▼</span>
+<span class="s3">Método de pago (MetodoPago)</span>
+  <span class="s3">│  Efectivo:       valida el dinero recibido y calcula el cambio</span>
+  <span class="s3">│  Tarjeta:        total + 2 % de recargo</span>
+  <span class="s3">│  Transferencia:  total sin cambios</span>
+  <span class="s3">▼</span>
+<span class="s3">Registro</span>
+  <span class="s3">│  1. vendedor.registrarVenta()               (+1 venta al vendedor)</span>
+  <span class="s3">│  2. administrador.agregarVenta(venta)       (se agrega a listaVentas)</span>
+  <span class="s3">│  3. venta.guardarEnArchivo()                (agrega una línea a ventas.txt)</span>
+  <span class="s3">│  4. inventario.guardarEnArchivo()           (reescribe inventario_zapatos.txt)</span>
+  <span class="s3">│  5. administrador.actualizarComisiones()    (reescribe comisiones.txt)</span>
+  <span class="s3">▼</span>
+<span class="s3">Archivos .txt actualizados</span>
+<span class="s0">```</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Diagrama de clases</span>
+
+<span class="s1">GitHub muestra este diagrama directamente. Los miembros estáticos aparecen subrayados y los métodos abstractos en cursiva.</span>
+
+<span class="s0">```</span><span class="s2">mermaid</span>
+<span class="s3">classDiagram</span>
+    <span class="s3">direction TB</span>
+
+    <span class="s3">class Guardable {</span>
+        <span class="s3">&lt;&lt;interface&gt;&gt;</span>
+        <span class="s3">+guardarEnArchivo()</span>
+        <span class="s3">+leerDeArchivo()</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class Usuario {</span>
+        <span class="s3">-String cedula</span>
+        <span class="s3">-String nombre</span>
+        <span class="s3">+getNombre() String</span>
+        <span class="s3">+getCedula() String</span>
+        <span class="s3">+iniciarSesion() boolean</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class Vendedor {</span>
+        <span class="s3">-int ventasRealizadas</span>
+        <span class="s3">+registrarVenta()</span>
+        <span class="s3">+getVentasRealizadas() int</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class Administrador {</span>
+        <span class="s3">-ArrayList~Venta~ listaVentas</span>
+        <span class="s3">-double salarioBase$</span>
+        <span class="s3">-double comisionPorVenta$</span>
+        <span class="s3">+agregarVenta(Venta)</span>
+        <span class="s3">+buscarVenta(int) Venta</span>
+        <span class="s3">+calcularComision(Vendedor) double</span>
+        <span class="s3">+calcularSalarioTotal(Vendedor) double</span>
+        <span class="s3">+mostrarVentas()</span>
+        <span class="s3">+leerVentasDeArchivo(ArrayList~Vendedor~)</span>
+        <span class="s3">+realizarCierreDeCaja()</span>
+        <span class="s3">+actualizarComisiones(ArrayList~Vendedor~)</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class Zapato {</span>
+        <span class="s3">-int contadorCodigo$</span>
+        <span class="s3">-String codigo</span>
+        <span class="s3">-String tipo</span>
+        <span class="s3">-int talla</span>
+        <span class="s3">-String color</span>
+        <span class="s3">-double precio</span>
+        <span class="s3">-int cantidadDisp</span>
+        <span class="s3">-String seccionBodega</span>
+        <span class="s3">-String sexo</span>
+        <span class="s3">+actualizarStock(int)</span>
+        <span class="s3">+verificarDisponibilidad() boolean</span>
+        <span class="s3">+mostrarZapato()</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class Inventario {</span>
+        <span class="s3">-ArrayList~Zapato~ listaZapatos</span>
+        <span class="s3">+agregarZapato(Zapato)</span>
+        <span class="s3">+buscarZapato(String) Zapato</span>
+        <span class="s3">+registrarIntercambio(String, String, int, int) double</span>
+        <span class="s3">+mostrarInventarioTotal()</span>
+        <span class="s3">+guardarEnArchivo()</span>
+        <span class="s3">+leerDeArchivo()</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class Venta {</span>
+        <span class="s3">-int contadorVenta$</span>
+        <span class="s3">-int numeroVenta</span>
+        <span class="s3">-String nombreComprador</span>
+        <span class="s3">-String telefonoComprador</span>
+        <span class="s3">-LocalDate fecha</span>
+        <span class="s3">-double total</span>
+        <span class="s3">+agregarDetalle(DetalleVenta)</span>
+        <span class="s3">+calcularTotalVenta() double</span>
+        <span class="s3">+setTotal(double)</span>
+        <span class="s3">+guardarEnArchivo()</span>
+        <span class="s3">+leerDeArchivo()</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class DetalleVenta {</span>
+        <span class="s3">-int cantidad</span>
+        <span class="s3">-double precioUnitario</span>
+        <span class="s3">+calcularSubtotal() double</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class MetodoPago {</span>
+        <span class="s3">&lt;&lt;abstract&gt;&gt;</span>
+        <span class="s3">#double monto</span>
+        <span class="s3">+procesarPago()* double</span>
+        <span class="s3">+getTipoPago()* String</span>
+        <span class="s3">+getMonto() double</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class PagoEfectivo {</span>
+        <span class="s3">-double dineroRecibido</span>
+        <span class="s3">+procesarPago() double</span>
+        <span class="s3">+getTipoPago() String</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class PagoTarjeta {</span>
+        <span class="s3">-int numeroTarjeta</span>
+        <span class="s3">-double tasaInteres$</span>
+        <span class="s3">+procesarPago() double</span>
+        <span class="s3">+getTipoPago() String</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class PagoTransferencia {</span>
+        <span class="s3">-String banco</span>
+        <span class="s3">+procesarPago() double</span>
+        <span class="s3">+getTipoPago() String</span>
+    <span class="s3">}</span>
+
+    <span class="s3">class FileManage {</span>
+        <span class="s3">-String fileName</span>
+        <span class="s3">+getDataOfFile() ArrayList~String~</span>
+        <span class="s3">+writeFile(String)</span>
+        <span class="s3">+writeLinesToFile(ArrayList~String~)</span>
+        <span class="s3">+updateFile(String, String)</span>
+        <span class="s3">+deleteLineInFile(String)</span>
+    <span class="s3">}</span>
+
+    <span class="s3">Usuario &lt;|-- Vendedor</span>
+    <span class="s3">Usuario &lt;|-- Administrador</span>
+
+    <span class="s3">MetodoPago &lt;|-- PagoEfectivo</span>
+    <span class="s3">MetodoPago &lt;|-- PagoTarjeta</span>
+    <span class="s3">MetodoPago &lt;|-- PagoTransferencia</span>
+
+    <span class="s3">Guardable &lt;|.. Inventario</span>
+    <span class="s3">Guardable &lt;|.. Venta</span>
+
+    <span class="s3">Inventario o-- Zapato : listaZapatos</span>
+    <span class="s3">Venta *-- DetalleVenta : detalles</span>
+    <span class="s3">DetalleVenta --&gt; Zapato</span>
+    <span class="s3">Venta --&gt; Vendedor</span>
+    <span class="s3">Venta --&gt; MetodoPago</span>
+    <span class="s3">Administrador o-- Venta : listaVentas</span>
+
+    <span class="s3">Inventario ..&gt; FileManage</span>
+    <span class="s3">Venta ..&gt; FileManage</span>
+    <span class="s3">Administrador ..&gt; FileManage</span>
+<span class="s0">```</span>
+
+<span class="s1">**Cómo leer las flechas**</span>
+
+<span class="s0">| </span><span class="s1">Símbolo </span><span class="s0">| </span><span class="s1">Relación </span><span class="s0">| </span><span class="s1">Ejemplo </span><span class="s0">|</span>
+<span class="s0">|---|---|---|</span>
+<span class="s0">| </span><span class="s1">`&lt;\|--` </span><span class="s0">| </span><span class="s1">Herencia </span><span class="s0">| </span><span class="s1">`Vendedor` hereda de `Usuario` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`&lt;\|..` </span><span class="s0">| </span><span class="s1">Implementa una interfaz </span><span class="s0">| </span><span class="s1">`Venta` implementa `Guardable` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`*--` </span><span class="s0">| </span><span class="s1">Composición (la parte no existe sin el todo) </span><span class="s0">| </span><span class="s1">`Venta` y `DetalleVenta` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`o--` </span><span class="s0">| </span><span class="s1">Agregación (el todo agrupa partes independientes) </span><span class="s0">| </span><span class="s1">`Inventario` y `Zapato` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`--&gt;` </span><span class="s0">| </span><span class="s1">Asociación </span><span class="s0">| </span><span class="s1">`Venta` conoce a su `Vendedor` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`..&gt;` </span><span class="s0">| </span><span class="s1">Dependencia (usa la clase) </span><span class="s0">| </span><span class="s1">`Inventario` usa `FileManage` </span><span class="s0">|</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Conceptos de POO aplicados</span>
+
+<span class="s0">### </span><span class="s1">Herencia</span>
+
+<span class="s0">```</span>
+<span class="s3">Usuario</span>
+<span class="s3">├── Vendedor</span>
+<span class="s3">└── Administrador</span>
+
+<span class="s3">MetodoPago (abstracta)</span>
+<span class="s3">├── PagoEfectivo</span>
+<span class="s3">├── PagoTarjeta</span>
+<span class="s3">└── PagoTransferencia</span>
+<span class="s0">```</span>
+
+<span class="s0">- </span><span class="s1">`Vendedor` y `Administrador` heredan `cedula` y `nombre` de `Usuario` y los inicializan con `super(cedula, nombre)`.</span>
+<span class="s0">- </span><span class="s1">`Vendedor` agrega el contador `ventasRealizadas`.</span>
+<span class="s0">- </span><span class="s1">`Administrador` agrega la lista de ventas, el cálculo de comisiones y salarios, y el cierre de caja.</span>
+
+<span class="s0">### </span><span class="s1">Abstracción</span>
+
+<span class="s1">`MetodoPago` es una clase abstracta: no se puede instanciar y obliga a cada medio de pago a implementar dos métodos:</span>
+
+<span class="s0">- </span><span class="s1">`procesarPago()`: hace el cobro y devuelve un valor (el cambio en efectivo, o el total cobrado en tarjeta y transferencia).</span>
+<span class="s0">- </span><span class="s1">`getTipoPago()`: devuelve `&quot;Efectivo&quot;`, `&quot;Tarjeta&quot;` o `&quot;Transferencia&quot;`.</span>
+
+<span class="s1">El atributo común `monto` y su validación están en la clase padre.</span>
+
+<span class="s0">### </span><span class="s1">Polimorfismo</span>
+
+<span class="s1">Una variable de tipo `MetodoPago` puede guardar cualquiera de los tres pagos, y cada uno responde a `procesarPago()` a su manera:</span>
+
+<span class="s0">```</span><span class="s2">java</span>
+<span class="s3">MetodoPago efectivo      = new PagoEfectivo(60000, 50000);             // dinero recibido, monto</span>
+<span class="s3">MetodoPago tarjeta       = new PagoTarjeta(50000, 1234);               // monto, número de tarjeta</span>
+<span class="s3">MetodoPago transferencia = new PagoTransferencia(&quot;Bancolombia&quot;, 50000); // banco, monto</span>
+
+<span class="s3">efectivo.procesarPago();       // 10000.0 (el cambio)</span>
+<span class="s3">tarjeta.procesarPago();        // 51000.0 (monto + 2 %)</span>
+<span class="s3">transferencia.procesarPago();  // 50000.0</span>
+
+<span class="s3">efectivo.getTipoPago();        // &quot;Efectivo&quot;</span>
+<span class="s3">tarjeta.getTipoPago();         // &quot;Tarjeta&quot;</span>
+<span class="s3">transferencia.getTipoPago();   // &quot;Transferencia&quot;</span>
+<span class="s0">```</span>
+
+<span class="s1">Dónde se usa en el proyecto:</span>
+
+<span class="s0">- </span><span class="s1">`Administrador.realizarCierreDeCaja()` suma los montos por medio de pago con `getTipoPago()`, sin usar `instanceof`.</span>
+<span class="s0">- </span><span class="s1">`Administrador.leerVentasDeArchivo()` crea el pago correcto según el texto guardado y lo asigna a una variable `MetodoPago`.</span>
+
+<span class="s0">### </span><span class="s1">Encapsulamiento</span>
+
+<span class="s1">Los atributos son `private` (o `protected` en `MetodoPago.monto`) y se acceden con getters. Los cambios de estado pasan por validaciones:</span>
+
+<span class="s0">| </span><span class="s1">Dónde </span><span class="s0">| </span><span class="s1">Qué valida </span><span class="s0">|</span>
+<span class="s0">|---|---|</span>
+<span class="s0">| </span><span class="s1">Constructor de `MetodoPago` </span><span class="s0">| </span><span class="s1">Si el monto es negativo, asigna 0. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`PagoEfectivo.procesarPago()` </span><span class="s0">| </span><span class="s1">El dinero recibido no puede ser menor que el monto. Si lo es, devuelve `-1`. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Venta.setTotal()` </span><span class="s0">| </span><span class="s1">El total no puede ser negativo. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Zapato.actualizarStock()` </span><span class="s0">| </span><span class="s1">El stock no puede quedar negativo. </span><span class="s0">|</span>
+
+<span class="s0">### </span><span class="s1">Interfaces</span>
+
+<span class="s0">| </span><span class="s1">Interfaz </span><span class="s0">| </span><span class="s1">Métodos </span><span class="s0">| </span><span class="s1">La implementan </span><span class="s0">|</span>
+<span class="s0">|---|---|---|</span>
+<span class="s0">| </span><span class="s1">`Guardable` </span><span class="s0">| </span><span class="s1">`guardarEnArchivo()`, `leerDeArchivo()` </span><span class="s0">| </span><span class="s1">`Inventario`, `Venta` </span><span class="s0">|</span>
+
+<span class="s1">Cada clase guarda de forma distinta:</span>
+
+<span class="s0">- </span><span class="s1">`Inventario.guardarEnArchivo()` **reescribe** el archivo completo con todos los zapatos.</span>
+<span class="s0">- </span><span class="s1">`Venta.guardarEnArchivo()` **agrega** una línea al final de `ventas.txt`.</span>
+
+<span class="s0">### </span><span class="s1">Clase interna</span>
+
+<span class="s1">`DetalleVenta` está declarada dentro de `Venta` porque una línea de detalle no tiene sentido sin su venta. Es una clase interna no estática, así que se crea a partir de una venta existente:</span>
+
+<span class="s0">```</span><span class="s2">java</span>
+<span class="s3">Venta.DetalleVenta detalle = venta.new DetalleVenta(cantidad, zapato);</span>
+<span class="s3">venta.agregarDetalle(detalle);</span>
+<span class="s0">```</span>
+
+<span class="s0">### </span><span class="s1">Composición, agregación y asociación</span>
+
+<span class="s0">- </span><span class="s1">**Composición:** `Venta` contiene sus `DetalleVenta`. Se crean con la venta y no existen fuera de ella.</span>
+<span class="s0">- </span><span class="s1">**Agregación:** `Inventario` agrupa objetos `Zapato` y `Administrador` agrupa objetos `Venta`.</span>
+<span class="s0">- </span><span class="s1">**Asociación:** cada `Venta` tiene un `Vendedor` y un `MetodoPago`.</span>
+
+<span class="s0">### </span><span class="s1">Miembros estáticos</span>
+
+<span class="s0">| </span><span class="s1">Clase </span><span class="s0">| </span><span class="s1">Miembro </span><span class="s0">| </span><span class="s1">Uso </span><span class="s0">|</span>
+<span class="s0">|---|---|---|</span>
+<span class="s0">| </span><span class="s1">`Venta` </span><span class="s0">| </span><span class="s1">`contadorVenta` </span><span class="s0">| </span><span class="s1">Consecutivo que asigna el número de cada venta. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Zapato` </span><span class="s0">| </span><span class="s1">`contadorCodigo` </span><span class="s0">| </span><span class="s1">Consecutivo para generar el código de 4 dígitos de los zapatos nuevos. </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Administrador` </span><span class="s0">| </span><span class="s1">`salarioBase` </span><span class="s0">| </span><span class="s1">Salario base de los vendedores ($2.000.000). </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`Administrador` </span><span class="s0">| </span><span class="s1">`comisionPorVenta` (`final`) </span><span class="s0">| </span><span class="s1">Comisión fija por venta ($3.000). </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`PagoTarjeta` </span><span class="s0">| </span><span class="s1">`tasaInteres` </span><span class="s0">| </span><span class="s1">Recargo de las ventas con tarjeta (2 %). </span><span class="s0">|</span>
+
+<span class="s1">Estos valores son de la clase, no de cada objeto: todas las ventas comparten el mismo contador y todos los vendedores la misma comisión.</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Formato de los archivos de datos</span>
+
+<span class="s1">Todos los archivos están en `src/files/`. Cada línea es un registro y los campos van separados por `|`.</span>
+
+<span class="s0">### </span><span class="s1">`inventario_zapatos.txt`</span>
+
+<span class="s0">```</span>
+<span class="s3">codigo|tipo|talla|color|precio|cantidadDisp|seccionBodega|sexo</span>
+<span class="s0">```</span>
+
+<span class="s0">| </span><span class="s1">Campo </span><span class="s0">| </span><span class="s1">Tipo </span><span class="s0">| </span><span class="s1">Ejemplo </span><span class="s0">|</span>
+<span class="s0">|---|---|---|</span>
+<span class="s0">| </span><span class="s1">`codigo` </span><span class="s0">| </span><span class="s1">Texto de 4 dígitos </span><span class="s0">| </span><span class="s1">`0001` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`tipo` </span><span class="s0">| </span><span class="s1">Texto </span><span class="s0">| </span><span class="s1">`Tenis` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`talla` </span><span class="s0">| </span><span class="s1">Entero </span><span class="s0">| </span><span class="s1">`37` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`color` </span><span class="s0">| </span><span class="s1">Texto </span><span class="s0">| </span><span class="s1">`Negro` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`precio` </span><span class="s0">| </span><span class="s1">Decimal </span><span class="s0">| </span><span class="s1">`150000.0` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`cantidadDisp` </span><span class="s0">| </span><span class="s1">Entero </span><span class="s0">| </span><span class="s1">`13` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`seccionBodega` </span><span class="s0">| </span><span class="s1">Texto </span><span class="s0">| </span><span class="s1">`A` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`sexo` </span><span class="s0">| </span><span class="s1">Texto </span><span class="s0">| </span><span class="s1">`Mujer` </span><span class="s0">|</span>
+
+<span class="s0">```</span>
+<span class="s3">0001|Tenis|37|Negro|150000.0|13|A|Mujer</span>
+<span class="s3">0002|Deportivo|41|Verde|200000.0|7|A|Hombre</span>
+<span class="s0">```</span>
+
+<span class="s0">### </span><span class="s1">`ventas.txt`</span>
+
+<span class="s0">```</span>
+<span class="s3">numeroVenta|comprador|telefono|vendedor|total|fecha|metodoPago</span>
+<span class="s0">```</span>
+
+<span class="s0">| </span><span class="s1">Campo </span><span class="s0">| </span><span class="s1">Tipo </span><span class="s0">| </span><span class="s1">Ejemplo </span><span class="s0">|</span>
+<span class="s0">|---|---|---|</span>
+<span class="s0">| </span><span class="s1">`numeroVenta` </span><span class="s0">| </span><span class="s1">Entero </span><span class="s0">| </span><span class="s1">`1` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`comprador` </span><span class="s0">| </span><span class="s1">Texto </span><span class="s0">| </span><span class="s1">`Pepito` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`telefono` </span><span class="s0">| </span><span class="s1">Texto </span><span class="s0">| </span><span class="s1">`325698417` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`vendedor` </span><span class="s0">| </span><span class="s1">Nombre del vendedor </span><span class="s0">| </span><span class="s1">`Andres` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`total` </span><span class="s0">| </span><span class="s1">Decimal </span><span class="s0">| </span><span class="s1">`610000.0` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`fecha` </span><span class="s0">| </span><span class="s1">`AAAA-MM-DD` </span><span class="s0">| </span><span class="s1">`2026-11-21` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`metodoPago` </span><span class="s0">| </span><span class="s1">Nombre de la clase </span><span class="s0">| </span><span class="s1">`PagoEfectivo`, `PagoTarjeta` o `PagoTransferencia` </span><span class="s0">|</span>
+
+<span class="s0">```</span>
+<span class="s3">1|Pepito|325698417|Andres|610000.0|2026-11-21|PagoEfectivo</span>
+<span class="s3">2|Ana|3256987541|Majo|581400.0|2026-11-21|PagoTarjeta</span>
+<span class="s0">```</span>
+
+<span class="s1">Al leer el archivo también se aceptan los valores cortos `Efectivo`, `Tarjeta` y `Transferencia`. Si el vendedor de una línea no existe en el sistema, esa venta se ignora.</span>
+
+<span class="s0">### </span><span class="s1">`comisiones.txt`</span>
+
+<span class="s0">```</span>
+<span class="s3">vendedor|ventasRealizadas|comision</span>
+<span class="s0">```</span>
+
+<span class="s0">```</span>
+<span class="s3">Paula|1|3000.0</span>
+<span class="s3">Majo|1|3000.0</span>
+<span class="s3">Andres|2|6000.0</span>
+<span class="s0">```</span>
+
+<span class="s1">Este archivo se calcula a partir de `ventas.txt`. Se reescribe al iniciar el programa y después de cada venta, así que editarlo a mano no tiene efecto.</span>
+
+<span class="s0">### </span><span class="s1">`Archivo_Mensual.txt`</span>
+
+<span class="s1">Está vacío y ninguna clase lo usa todavía.</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">ArrayList vs archivo de texto</span>
+
+<span class="s1">El programa trabaja con dos tipos de almacenamiento:</span>
+
+<span class="s0">| | </span><span class="s1">`ArrayList` </span><span class="s0">| </span><span class="s1">Archivo `.txt` </span><span class="s0">|</span>
+<span class="s0">|---|---|---|</span>
+<span class="s0">| </span><span class="s1">Dónde vive </span><span class="s0">| </span><span class="s1">Memoria RAM </span><span class="s0">| </span><span class="s1">Disco </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">Duración </span><span class="s0">| </span><span class="s1">Mientras el programa está abierto </span><span class="s0">| </span><span class="s1">Permanente </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">Acceso </span><span class="s0">| </span><span class="s1">Directo a objetos (`zapato.getPrecio()`) </span><span class="s0">| </span><span class="s1">Hay que leer líneas y convertir cada campo con `split(&quot;\\|&quot;)` y `parseInt`/`parseDouble` </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">Para qué se usa </span><span class="s0">| </span><span class="s1">Buscar, modificar y calcular </span><span class="s0">| </span><span class="s1">Conservar los datos entre ejecuciones </span><span class="s0">|</span>
+
+<span class="s1">La idea es: al iniciar, se leen los archivos y se convierten en objetos dentro de listas. Durante la ejecución se trabaja sobre las listas. Después de cada cambio, se escribe de vuelta en el archivo.</span>
+
+<span class="s0">| </span><span class="s1">Lista en memoria </span><span class="s0">| </span><span class="s1">Clase </span><span class="s0">| </span><span class="s1">Archivo </span><span class="s0">| </span><span class="s1">Cuándo se lee </span><span class="s0">| </span><span class="s1">Cuándo se escribe </span><span class="s0">|</span>
+<span class="s0">|---|---|---|---|---|</span>
+<span class="s0">| </span><span class="s1">`listaZapatos` </span><span class="s0">| </span><span class="s1">`Inventario` </span><span class="s0">| </span><span class="s1">`inventario_zapatos.txt` </span><span class="s0">| </span><span class="s1">Al iniciar (`Menu()`) </span><span class="s0">| </span><span class="s1">Después de cada venta, intercambio o cambio de stock (reescribe todo) </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`listaVentas` </span><span class="s0">| </span><span class="s1">`Administrador` </span><span class="s0">| </span><span class="s1">`ventas.txt` </span><span class="s0">| </span><span class="s1">Al iniciar (`leerVentasDeArchivo()`) </span><span class="s0">| </span><span class="s1">Después de cada venta (agrega una línea) </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`vendedores` </span><span class="s0">| </span><span class="s1">`Menu` </span><span class="s0">| </span><span class="s1">`comisiones.txt` </span><span class="s0">| </span><span class="s1">No se lee </span><span class="s0">| </span><span class="s1">Al iniciar y después de cada venta (reescribe todo) </span><span class="s0">|</span>
+<span class="s0">| </span><span class="s1">`detalles` </span><span class="s0">| </span><span class="s1">`Venta` </span><span class="s0">| </span><span class="s1">Ninguno </span><span class="s0">| </span><span class="s1">— </span><span class="s0">| </span><span class="s1">No se guarda </span><span class="s0">|</span>
+
+<span class="s1">Las dos formas de escribir están en `FileManage`:</span>
+
+<span class="s0">- </span><span class="s1">`writeFile(linea)` abre el archivo en modo *append* y agrega una línea al final. La usa `Venta`.</span>
+<span class="s0">- </span><span class="s1">`writeLinesToFile(lineas)` borra el contenido y escribe todas las líneas de nuevo. La usan `Inventario` y `Administrador.actualizarComisiones()`.</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Reglas de negocio</span>
+
+<span class="s1">**Ventas**</span>
+<span class="s0">- </span><span class="s1">El vendedor debe existir; se busca por nombre sin importar mayúsculas.</span>
+<span class="s0">- </span><span class="s1">La cantidad de cada producto debe ser mayor que 0 y no puede superar las unidades disponibles.</span>
+<span class="s0">- </span><span class="s1">El stock se descuenta en el momento en que se agrega cada producto a la venta.</span>
+<span class="s0">- </span><span class="s1">El total es la suma de `cantidad × precio unitario` de cada producto.</span>
+<span class="s0">- </span><span class="s1">El número de venta es consecutivo. Al iniciar, el contador sigue desde la cantidad de ventas cargadas de `ventas.txt`.</span>
+<span class="s0">- </span><span class="s1">La fecha de la venta es la fecha del sistema.</span>
+
+<span class="s1">**Medios de pago**</span>
+<span class="s0">- </span><span class="s1">**Efectivo:** el dinero recibido debe cubrir el total. Si no alcanza, pide un monto nuevamente. Si sobra, se muestra el cambio.</span>
+<span class="s0">- </span><span class="s1">**Tarjeta:** se cobra un recargo del 2 % y el total guardado incluye ese recargo.</span>
+<span class="s0">- </span><span class="s1">**Transferencia:** se pide el nombre del banco y se cobra el total sin recargo.</span>
+
+<span class="s1">**Intercambios**</span>
+<span class="s0">- </span><span class="s1">El cliente devuelve unidades del producto 1 (se suman al stock) y se lleva unidades del producto 2 (se restan del stock).</span>
+<span class="s0">- </span><span class="s1">La diferencia se calcula con el precio unitario: `precio del producto 2 − precio del producto 1`.</span>
+<span class="s0">- </span><span class="s1">Si la diferencia es mayor que 0, se registra una venta por ese valor y cuenta para la comisión del vendedor.</span>
+<span class="s0">- </span><span class="s1">Si la diferencia es 0 o negativa, no se registra venta ni se devuelve dinero.</span>
+
+<span class="s1">**Comisiones y salario**</span>
+<span class="s0">- </span><span class="s1">Comisión: $3.000 por cada venta registrada (incluye las ventas por intercambio).</span>
+<span class="s0">- </span><span class="s1">Salario total = $2.000.000 de salario base + comisión.</span>
+
+<span class="s1">**Inventario**</span>
+<span class="s0">- </span><span class="s1">El código de un zapato nuevo se genera solo, con 4 dígitos, a partir del código más alto cargado (si el último es `0004`, el siguiente es `0005`).</span>
+<span class="s0">- </span><span class="s1">Para sumar unidades a un zapato existente, la cantidad debe ser mayor que 0.</span>
+<span class="s0">- </span><span class="s1">El stock nunca puede quedar negativo.</span>
+
+<span class="s1">**Cierre de caja**</span>
+<span class="s0">- </span><span class="s1">Solo incluye las ventas con fecha de hoy.</span>
+<span class="s0">- </span><span class="s1">Muestra el total por medio de pago (efectivo, tarjeta, transferencia) y el total recaudado.</span>
+
+<span class="s0">---</span>
+
+<span class="s0">## </span><span class="s1">Limitaciones conocidas</span>
+
+<span class="s0">- </span><span class="s1">Los vendedores y el administrador están escritos en el código (`Menu.iniciarMenu()`). No hay registro de usuarios ni inicio de sesión; `Usuario.iniciarSesion()` existe pero siempre devuelve `true` y no se llama.</span>
+<span class="s0">- </span><span class="s1">Los productos de cada venta (`DetalleVenta`) no se guardan. En `ventas.txt` solo queda el encabezado y el total.</span>
+<span class="s0">- </span><span class="s1">Si se escribe texto donde el menú espera un número, el programa se detiene con `InputMismatchException`.</span>
+<span class="s0">- </span><span class="s1">`FileManage.updateFile()`, `FileManage.deleteLineInFile()`, `Zapato.verificarDisponibilidad()` y `Venta.leerDeArchivo()` están implementados pero no se usan desde los menús.</span>
+</pre>
+</body>
+</html>

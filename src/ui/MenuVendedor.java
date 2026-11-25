@@ -146,6 +146,8 @@ public class MenuVendedor {
                         venta.guardarEnArchivo();
                         inventario.guardarEnArchivo();
                         vendedor.registrarVenta();
+                    }else{
+                        System.out.println("No es posible realizar el intercambio. El precio del producto a cambiar debe ser mayor o igual al producto de cambio ");
                     }
                     break;
                 case 3:

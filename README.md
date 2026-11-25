@@ -48,6 +48,7 @@ Aplicar herencia, polimorfismo, encapsulamiento, abstracción e interfaces en un
 - Ver las ventas, comisiones y salario total de cada vendedor.
 - Ver el registro de ventas.
 - Agregar unidades a un zapato existente o crear un zapato nuevo.
+- Generar y visualizar el archivo mensual.
 
 ### Entidades principales
 

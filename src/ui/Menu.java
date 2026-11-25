@@ -16,8 +16,7 @@ public class Menu {
     }
 
     public void iniciarMenu(){
-        vendedores=new ArrayList<>(); //Para buscar el vendedor cuando registre la venta
-
+        vendedores=new ArrayList<>();
         Vendedor vendedor1=new Vendedor("35400000","Paula");
         Vendedor vendedor2=new Vendedor("11000000", "Majo");
         Vendedor vendedor3=new Vendedor("50100000","Andres");

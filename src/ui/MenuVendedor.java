@@ -67,7 +67,6 @@ public class MenuVendedor {
                     sc.nextLine();
                     double diffPrecio;
                     try {
-                        // Solo calcula la diferencia. El stock se mueve cuando el intercambio se confirma.
                         diffPrecio = inventario.calcularDiferenciaIntercambio(codigo1, codigo2, cantidad1, cantidad2);
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getMessage());
@@ -146,7 +145,6 @@ public class MenuVendedor {
                             default:
                                 System.out.println("Opción invalida. Intente nuevamente.");
                         }
-                        // El pago ya se completó: ahora sí se mueve el stock y se guarda el inventario.
                         inventario.registrarIntercambio(codigo1, codigo2, cantidad1, cantidad2);
                         administrador.agregarVenta(venta);
                         venta.guardarEnArchivo();

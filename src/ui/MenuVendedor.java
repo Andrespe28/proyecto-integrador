@@ -110,17 +110,14 @@ public class MenuVendedor {
                                 System.out.println("Ingrese la cantidad de dinero dado por el comprador: ");
                                 double dinero=sc.nextDouble();
                                 PagoEfectivo pagoEfectivo=new PagoEfectivo(dinero,total);
-                                double dineroDevuelto;
-                                do{
-                                    dineroDevuelto=pagoEfectivo.procesarPago();
-                                    if(dineroDevuelto==-1){
-                                        System.out.println("Dinero insuficiente, por favor ingrese más dinero.\nIngrese el nuevo valor");
-                                    }
+                                double dineroDevuelto=pagoEfectivo.procesarPago();
+                                while(dineroDevuelto==-1){
+                                    System.out.println("Dinero insuficiente, por favor ingrese más dinero.\nIngrese el nuevo valor");
                                     dinero=sc.nextDouble();
+                                    sc.nextLine();
                                     pagoEfectivo.setDineroRecibido(dinero);
                                     dineroDevuelto=pagoEfectivo.procesarPago();
-                                    sc.nextLine();
-                                }while(dineroDevuelto==-1);
+                                }
 
                                 venta.setTotal(total);
                                 venta.setMetodoPago(pagoEfectivo);
@@ -221,17 +218,14 @@ public class MenuVendedor {
                             System.out.println("Ingrese la cantidad de dinero dado por el comprador: ");
                             double dinero=sc.nextDouble();
                             PagoEfectivo pagoEfectivo=new PagoEfectivo(dinero,totalVenta);
-                            double dineroDevuelto;
-                            do{
-                                dineroDevuelto=pagoEfectivo.procesarPago();
-                                if(dineroDevuelto==-1){
-                                    System.out.println("Dinero insuficiente, por favor ingrese más dinero.\nIngrese el nuevo valor");
-                                }
+                            double dineroDevuelto=pagoEfectivo.procesarPago();
+                            while(dineroDevuelto==-1){
+                                System.out.println("Dinero insuficiente, por favor ingrese más dinero.\nIngrese el nuevo valor");
                                 dinero=sc.nextDouble();
+                                sc.nextLine();
                                 pagoEfectivo.setDineroRecibido(dinero);
                                 dineroDevuelto=pagoEfectivo.procesarPago();
-                                sc.nextLine();
-                            }while(dineroDevuelto==-1);
+                            }
 
                             venta.setTotal(totalVenta);
                             venta.setMetodoPago(pagoEfectivo);

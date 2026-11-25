@@ -67,13 +67,19 @@ public class MenuVendedor {
                     sc.nextLine();
                     double diffPrecio;
                     try {
-                        diffPrecio = inventario.registrarIntercambio(codigo1, codigo2, cantidad1, cantidad2);
+                        // Solo calcula la diferencia. El stock se mueve cuando el intercambio se confirma.
+                        diffPrecio = inventario.calcularDiferenciaIntercambio(codigo1, codigo2, cantidad1, cantidad2);
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getMessage());
                         break;
                     }
 
-                    if (diffPrecio > 0) {
+                    if (diffPrecio < 0) {
+                        System.out.println("No es posible realizar el intercambio. El precio del producto a cambiar debe ser mayor o igual al producto de cambio ");
+                    } else if (diffPrecio == 0) {
+                        inventario.registrarIntercambio(codigo1, codigo2, cantidad1, cantidad2);
+                        System.out.println("Intercambio realizado. No hay diferencia de precio por pagar.");
+                    } else {
                         System.out.println("\nRegistrar venta");
                         System.out.print("Ingrese el nombre del vendedor que realizó la venta: ");
                         String nombre=sc.nextLine();
@@ -110,24 +116,22 @@ public class MenuVendedor {
                                 System.out.println("Ingrese la cantidad de dinero dado por el comprador: ");
                                 double dinero=sc.nextDouble();
                                 PagoEfectivo pagoEfectivo=new PagoEfectivo(dinero,total);
-                                double dineroDevuelto;
-                                do{
-                                    dineroDevuelto=pagoEfectivo.procesarPago();
-                                    if(dineroDevuelto==-1){
-                                        System.out.println("Dinero insuficiente, por favor ingrese más dinero.\nIngrese el nuevo valor");
-                                    }
+                                double dineroDevuelto=pagoEfectivo.procesarPago();
+                                while(dineroDevuelto==-1){
+                                    System.out.println("Dinero insuficiente, por favor ingrese más dinero.\nIngrese el nuevo valor");
                                     dinero=sc.nextDouble();
+                                    sc.nextLine();
                                     pagoEfectivo.setDineroRecibido(dinero);
                                     dineroDevuelto=pagoEfectivo.procesarPago();
-                                    sc.nextLine();
-                                }while(dineroDevuelto==-1);
+                                }
 
                                 venta.setTotal(total);
                                 venta.setMetodoPago(pagoEfectivo);
                                 break;
                             case 2:
                                 System.out.println("Ingrese el número de la tarjeta: ");
-                                int numTarjetaCambio=sc.nextInt();
+                                long numTarjetaCambio=sc.nextLong();
+                                sc.nextLine();
                                 PagoTarjeta pagoTarjeta=new PagoTarjeta(total,numTarjetaCambio);
                                 venta.setTotal(pagoTarjeta.procesarPago());
                                 venta.setMetodoPago(pagoTarjeta);
@@ -142,12 +146,11 @@ public class MenuVendedor {
                             default:
                                 System.out.println("Opción invalida. Intente nuevamente.");
                         }
+                        // El pago ya se completó: ahora sí se mueve el stock y se guarda el inventario.
+                        inventario.registrarIntercambio(codigo1, codigo2, cantidad1, cantidad2);
                         administrador.agregarVenta(venta);
                         venta.guardarEnArchivo();
-                        inventario.guardarEnArchivo();
                         vendedor.registrarVenta();
-                    }else{
-                        System.out.println("No es posible realizar el intercambio. El precio del producto a cambiar debe ser mayor o igual al producto de cambio ");
                     }
                     break;
                 case 3:
@@ -221,24 +224,21 @@ public class MenuVendedor {
                             System.out.println("Ingrese la cantidad de dinero dado por el comprador: ");
                             double dinero=sc.nextDouble();
                             PagoEfectivo pagoEfectivo=new PagoEfectivo(dinero,totalVenta);
-                            double dineroDevuelto;
-                            do{
-                                dineroDevuelto=pagoEfectivo.procesarPago();
-                                if(dineroDevuelto==-1){
-                                    System.out.println("Dinero insuficiente, por favor ingrese más dinero.\nIngrese el nuevo valor");
-                                }
+                            double dineroDevuelto=pagoEfectivo.procesarPago();
+                            while(dineroDevuelto==-1){
+                                System.out.println("Dinero insuficiente, por favor ingrese más dinero.\nIngrese el nuevo valor");
                                 dinero=sc.nextDouble();
+                                sc.nextLine();
                                 pagoEfectivo.setDineroRecibido(dinero);
                                 dineroDevuelto=pagoEfectivo.procesarPago();
-                                sc.nextLine();
-                            }while(dineroDevuelto==-1);
+                            }
 
                             venta.setTotal(totalVenta);
                             venta.setMetodoPago(pagoEfectivo);
                             break;
                         case 2:
                             System.out.println("Ingrese el número de la tarjeta: ");
-                            int numTarjeta=sc.nextInt();
+                            long numTarjeta=sc.nextLong();
                             sc.nextLine();
                             PagoTarjeta pagoTarjeta=new PagoTarjeta(totalVenta,numTarjeta);
                             venta.setTotal(pagoTarjeta.procesarPago());
@@ -289,6 +289,7 @@ public class MenuVendedor {
                     break;
                 case 0:
                     System.out.println("Saliendo del menú del vendedor.");
+                    break;
                 default:
                     System.out.println("Opción inválida");
             }

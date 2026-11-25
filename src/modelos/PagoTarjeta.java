@@ -1,10 +1,11 @@
 package modelos;
 
 public class PagoTarjeta extends MetodoPago{
-    private int numeroTarjeta;
+    // long y no int: un número de tarjeta tiene 16 dígitos y un int solo llega a 10.
+    private long numeroTarjeta;
     private static double tasaInteres = 0.02;
 
-    public PagoTarjeta(double monto, int numeroTarjeta) {
+    public PagoTarjeta(double monto, long numeroTarjeta) {
         super(monto);
         this.numeroTarjeta = numeroTarjeta;
     }

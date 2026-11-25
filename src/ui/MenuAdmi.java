@@ -74,7 +74,7 @@ public class MenuAdmi {
 
                             if (zapatoEncontrado == null) {
                                 System.out.println("Error: No se encontró ningún zapato con el código '" + codigo1 + "'.");
-                                return;
+                                break;
                             }
 
                             System.out.println("Zapato encontrado: " + zapatoEncontrado.getTipo() + " | Talla: " + zapatoEncontrado.getTalla());
@@ -86,7 +86,7 @@ public class MenuAdmi {
 
                             if (cantidadASumar <= 0) {
                                 System.out.println("Error: La cantidad a agregar debe ser mayor a 0.");
-                                return;
+                                break;
                             }
 
                             int nuevoStock = zapatoEncontrado.getCantidadDisp() + cantidadASumar;
@@ -117,6 +117,7 @@ public class MenuAdmi {
                             System.out.println(" 1. Hombre\n 2. Mujer\n 3.Otro");
                             String sexo="x";
                             int op=sc.nextInt();
+                            sc.nextLine();
                             switch(op){
                                 case 1:
                                     sexo="Hombre";

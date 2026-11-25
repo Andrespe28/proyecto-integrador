@@ -27,7 +27,8 @@ public class Inventario implements Guardable {
     }
 
 
-    public double registrarIntercambio(String codigo1, String codigo2, int cant1, int cant2) {
+    // Valida el intercambio y devuelve la diferencia de precio sin modificar el stock.
+    public double calcularDiferenciaIntercambio(String codigo1, String codigo2, int cant1, int cant2) {
         Zapato zapato1 = buscarZapato(codigo1);
         Zapato zapato2 = buscarZapato(codigo2);
 
@@ -41,9 +42,17 @@ public class Inventario implements Guardable {
             throw new IllegalArgumentException("No hay suficientes unidades del segundo producto.");
         }
 
-        zapato1.actualizarStock(cant1);
-        zapato2.actualizarStock(-cant2);
-        double diffPrecio = zapato2.getPrecio()*cant1 - zapato1.getPrecio()*cant2;
+        // Lo que se lleva (producto 2) menos lo que devuelve (producto 1).
+        return zapato2.getPrecio()*cant2 - zapato1.getPrecio()*cant1;
+    }
+
+    // Aplica el intercambio: mueve el stock y guarda el inventario.
+    // Llamarlo solo cuando el intercambio ya se confirmó (y se pagó, si había diferencia).
+    public double registrarIntercambio(String codigo1, String codigo2, int cant1, int cant2) {
+        double diffPrecio = calcularDiferenciaIntercambio(codigo1, codigo2, cant1, cant2);
+
+        buscarZapato(codigo1).actualizarStock(cant1);
+        buscarZapato(codigo2).actualizarStock(-cant2);
         guardarEnArchivo();
         return diffPrecio;
     }
@@ -75,7 +84,8 @@ public class Inventario implements Guardable {
         if (lineas != null && !lineas.isEmpty()) {
             System.out.println("=== CONTENIDO DEL ARCHIVO DE INVENTARIO ===");
             for (String linea : lineas) {
-                String[] datos = linea.split("\\|");
+                // El -1 conserva los campos vacíos del final (por ejemplo, un sexo vacío).
+                String[] datos = linea.split("\\|", -1);
                 String codigo = datos[0];
                 String tipo = datos[1];
                 int talla = Integer.parseInt(datos[2]);

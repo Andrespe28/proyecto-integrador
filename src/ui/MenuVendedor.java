@@ -289,6 +289,7 @@ public class MenuVendedor {
                     break;
                 case 0:
                     System.out.println("Saliendo del menú del vendedor.");
+                    break;
                 default:
                     System.out.println("Opción inválida");
             }

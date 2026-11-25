@@ -270,11 +270,9 @@ GitHub muestra este diagrama directamente. Los miembros estáticos aparecen subr
 classDiagram
     direction TB
 
-    class Guardable {
-        <<interface>>
-        +guardarEnArchivo()
-        +leerDeArchivo()
-    }
+%% =========================
+%% 1. USUARIOS
+%% =========================
 
     class Usuario {
         -String cedula
@@ -303,6 +301,10 @@ classDiagram
         +actualizarComisiones(ArrayList~Vendedor~)
     }
 
+%% =========================
+%% 2. PRODUCTOS E INVENTARIO
+%% =========================
+
     class Zapato {
         -int contadorCodigo$
         -String codigo
@@ -328,6 +330,10 @@ classDiagram
         +leerDeArchivo()
     }
 
+%% =========================
+%% 3. VENTAS
+%% =========================
+
     class Venta {
         -int contadorVenta$
         -int numeroVenta
@@ -347,6 +353,10 @@ classDiagram
         -double precioUnitario
         +calcularSubtotal() double
     }
+
+%% =========================
+%% 4. METODOS DE PAGO
+%% =========================
 
     class MetodoPago {
         <<abstract>>
@@ -375,6 +385,16 @@ classDiagram
         +getTipoPago() String
     }
 
+%% =========================
+%% 5. ARCHIVOS Y ALMACENAMIENTO
+%% =========================
+
+    class Guardable {
+        <<interface>>
+        +guardarEnArchivo()
+        +leerDeArchivo()
+    }
+
     class FileManage {
         -String fileName
         +getDataOfFile() ArrayList~String~
@@ -388,23 +408,34 @@ classDiagram
         +consultar() ArrayList~String~
     }
 
+%% =========================
+%% 6. RELACIONES ENTRE CLASES
+%% =========================
+
+%% Herencia de usuarios
     Usuario <|-- Vendedor
     Usuario <|-- Administrador
 
+%% Herencia de metodos de pago
     MetodoPago <|-- PagoEfectivo
     MetodoPago <|-- PagoTarjeta
     MetodoPago <|-- PagoTransferencia
 
+%% Implementacion de interfaces
     Guardable <|.. Inventario
     Guardable <|.. Venta
 
+%% Relaciones de inventario
     Inventario o-- Zapato : listaZapatos
+
+%% Relaciones de ventas
     Venta *-- DetalleVenta : detalles
     DetalleVenta --> Zapato
     Venta --> Vendedor
     Venta --> MetodoPago
     Administrador o-- Venta : listaVentas
 
+%% Relaciones con archivos
     Inventario ..> FileManage
     Venta ..> FileManage
     Administrador ..> FileManage

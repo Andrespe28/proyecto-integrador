@@ -31,7 +31,6 @@ Aplicar herencia, polimorfismo, encapsulamiento, abstracción e interfaces en un
 8. [Formato de los archivos de datos](#formato-de-los-archivos-de-datos)
 9. [ArrayList vs archivo de texto](#arraylist-vs-archivo-de-texto)
 10. [Reglas de negocio](#reglas-de-negocio)
-11. [Limitaciones conocidas](#limitaciones-conocidas)
 
 ---
 
@@ -141,8 +140,10 @@ Los usuarios están definidos en `Menu.iniciarMenu()`. No hay inicio de sesión:
 
 | Opción | Acción |
 |---|---|
-| 1 | Ver datos del mes: **1.** salario total de cada vendedor (ventas, comisión, salario base y total) o **2.** registro de ventas. |
+| 1 | Ver datos: **1.** salario total de cada vendedor (ventas realizadas, comisión, salario base y total acumulado) o **2.** registro de todas las ventas. |
 | 2 | Registrar producto: **1.** sumar unidades a un zapato existente o **2.** crear un zapato nuevo (el código se genera solo). |
+| 3 | Generar Archivo mensual. |
+| 4 | Consultar Archivo mensual. |
 | 0 | Volver al menú principal. |
 
 ### Ejemplo: cierre de caja
@@ -151,14 +152,14 @@ Con las 4 ventas de ejemplo de `ventas.txt`, todas del mismo día:
 
 ```
 ==========================================
-       CIERRE DE CAJA - 2026-11-21
+       CIERRE DE CAJA - 2026-11-24
 ==========================================
 Total de ventas realizadas: 4
-Total Efectivo:      $880000.0
-Total Tarjeta:       $581400.0
-Total Transferencia: $370000.0
+Total Efectivo:      $200000.0
+Total Tarjeta:       $510000.0
+Total Transferencia: $0.0
 ------------------------------------------
-TOTAL RECAUDADO:     $1831400.0
+TOTAL RECAUDADO:      $710000.0
 ------------------------------------------
 ```
 
@@ -169,43 +170,41 @@ TOTAL RECAUDADO:     $1831400.0
 ```
 proyecto-integrador/
 ├── src/
-│   ├── Main.java                     Punto de entrada. Crea el Menu y lo inicia.
-│   │
-│   ├── ui/
-│   │   ├── Menu.java                 Menú principal. Crea vendedores y administrador,
-│   │   │                             carga inventario y ventas, y abre los submenús.
-│   │   ├── MenuVendedor.java         Opciones del vendedor (ventas, intercambios, cierre de caja).
-│   │   └── MenuAdmi.java             Opciones del administrador (salarios, ventas, productos).
-│   │
-│   ├── modelos/
-│   │   ├── Usuario.java              Clase padre de Vendedor y Administrador.
-│   │   ├── Vendedor.java
-│   │   ├── Administrador.java
-│   │   ├── Zapato.java
-│   │   ├── Inventario.java           Implementa Guardable.
-│   │   ├── Venta.java                Implementa Guardable. Contiene la clase interna DetalleVenta.
-│   │   ├── MetodoPago.java           Clase abstracta.
-│   │   ├── PagoEfectivo.java
-│   │   ├── PagoTarjeta.java
-│   │   └── PagoTransferencia.java
-│   │
-│   ├── interfaces/
-│   │   └── Guardable.java            Contrato: guardarEnArchivo() y leerDeArchivo().
-│   │
-│   ├── persistencia/
-│   │   └── FileManage.java           Leer, agregar, reemplazar y borrar líneas en los .txt.
-│   │
-│   └── files/
-│       ├── inventario_zapatos.txt    4 zapatos de ejemplo.
-│       ├── ventas.txt                4 ventas de ejemplo.
-│       ├── comisiones.txt            3 líneas, una por vendedor (se regenera al iniciar).
-│       └── Archivo_Mensual.txt       Vacío. Todavía no se usa en el código.
-│
-├── .idea/                            Configuración de IntelliJ IDEA.
-├── .classpath, .project,
-│   *.eml, *.userlibraries            Configuración en formato Eclipse.
-├── .gitignore                        Excluye la carpeta out/.
-└── README.md
+   ├── Main.java                                Punto de entrada. Crea el Menu y lo inicia.
+   │
+   ├── ui/
+   │   ├── Menu.java                            Menú principal. Crea vendedores y administrador,
+   │   │                                        carga inventario y ventas, y abre los submenús.
+   │   ├── MenuVendedor.java                    Opciones del vendedor (ventas, intercambios, cierre de caja).
+   │   └── MenuAdmi.java                        Opciones del administrador (salarios, ventas, productos).
+   │
+   ├── modelos/
+   │   ├── Usuario.java                         Clase padre de Vendedor y Administrador.
+   │   ├── Vendedor.java
+   │   ├── Administrador.java
+   │   ├── Zapato.java
+   │   ├── Inventario.java                      Implementa Guardable.
+   │   ├── Venta.java                           Implementa Guardable. Contiene la clase interna DetalleVenta.
+   │   ├── MetodoPago.java                      Clase abstracta.
+   │   ├── PagoEfectivo.java
+   │   ├── PagoTarjeta.java
+   │   └── PagoTransferencia.java
+   │
+   ├── interfaces/
+   │   └── Guardable.java                       Contrato: guardarEnArchivo() y leerDeArchivo().
+   │
+   ├── persistencia/
+   │   └── FileManage.java                      Leer y agregar líneas en los .txt.
+   │
+   ├── repositorios/
+   │   └── ArchivoMensualRepository.java        Gestiona la lectura y escritura de Archivo_Mensual.txt
+   │
+   └── files/
+       ├── inventario_zapatos.txt               5 zapatos de ejemplo.
+       ├── ventas.txt                           8 ventas de ejemplo.
+       ├── comisiones.txt                       3 líneas, una por vendedor (se regenera al iniciar).
+       └── Archivo_Mensual.txt                  Información sobre las ventas e inventario del mes.
+
 ```
 
 ---
@@ -218,7 +217,7 @@ El código está separado en tres capas, una por paquete:
 |---|---|---|
 | Interfaz (consola) | `ui` | Mostrar menús, leer lo que escribe el usuario y llamar a los métodos del modelo. |
 | Dominio | `modelos` | Entidades, cálculos (totales, comisiones, cambio) y validaciones. |
-| Persistencia | `persistencia`, `interfaces` | Leer y escribir líneas en los archivos `.txt`. |
+| Persistencia | `persistencia`, `interfaces`, `repositorios` | Leer y escribir líneas en los archivos `.txt`. |
 
 Algunas clases del modelo también imprimen en consola (por ejemplo `Zapato.mostrarZapato()` y `Administrador.realizarCierreDeCaja()`), así que la separación entre capas no es estricta.
 
@@ -271,18 +270,15 @@ GitHub muestra este diagrama directamente. Los miembros estáticos aparecen subr
 classDiagram
     direction TB
 
-    class Guardable {
-        <<interface>>
-        +guardarEnArchivo()
-        +leerDeArchivo()
-    }
+%% =========================
+%% 1. USUARIOS
+%% =========================
 
     class Usuario {
         -String cedula
         -String nombre
         +getNombre() String
         +getCedula() String
-        +iniciarSesion() boolean
     }
 
     class Vendedor {
@@ -304,6 +300,10 @@ classDiagram
         +realizarCierreDeCaja()
         +actualizarComisiones(ArrayList~Vendedor~)
     }
+
+%% =========================
+%% 2. PRODUCTOS E INVENTARIO
+%% =========================
 
     class Zapato {
         -int contadorCodigo$
@@ -330,6 +330,10 @@ classDiagram
         +leerDeArchivo()
     }
 
+%% =========================
+%% 3. VENTAS
+%% =========================
+
     class Venta {
         -int contadorVenta$
         -int numeroVenta
@@ -349,6 +353,10 @@ classDiagram
         -double precioUnitario
         +calcularSubtotal() double
     }
+
+%% =========================
+%% 4. METODOS DE PAGO
+%% =========================
 
     class MetodoPago {
         <<abstract>>
@@ -377,35 +385,62 @@ classDiagram
         +getTipoPago() String
     }
 
+%% =========================
+%% 5. ARCHIVOS Y ALMACENAMIENTO
+%% =========================
+
+    class Guardable {
+        <<interface>>
+        +guardarEnArchivo()
+        +leerDeArchivo()
+    }
+
     class FileManage {
         -String fileName
         +getDataOfFile() ArrayList~String~
         +writeFile(String)
         +writeLinesToFile(ArrayList~String~)
-        +updateFile(String, String)
-        +deleteLineInFile(String)
     }
 
+    class ArchivoMensualRepository {
+        -FileManage fileManager
+        +guardar(ArrayList~String~)
+        +consultar() ArrayList~String~
+    }
+
+%% =========================
+%% 6. RELACIONES ENTRE CLASES
+%% =========================
+
+%% Herencia de usuarios
     Usuario <|-- Vendedor
     Usuario <|-- Administrador
 
+%% Herencia de metodos de pago
     MetodoPago <|-- PagoEfectivo
     MetodoPago <|-- PagoTarjeta
     MetodoPago <|-- PagoTransferencia
 
+%% Implementacion de interfaces
     Guardable <|.. Inventario
     Guardable <|.. Venta
 
+%% Relaciones de inventario
     Inventario o-- Zapato : listaZapatos
+
+%% Relaciones de ventas
     Venta *-- DetalleVenta : detalles
     DetalleVenta --> Zapato
     Venta --> Vendedor
     Venta --> MetodoPago
     Administrador o-- Venta : listaVentas
 
+%% Relaciones con archivos
     Inventario ..> FileManage
     Venta ..> FileManage
     Administrador ..> FileManage
+    Administrador ..> ArchivoMensualRepository
+    ArchivoMensualRepository ..> FileManage
 ```
 
 **Cómo leer las flechas**
@@ -588,7 +623,7 @@ Este archivo se calcula a partir de `ventas.txt`. Se reescribe al iniciar el pro
 
 ### `Archivo_Mensual.txt`
 
-Está vacío y ninguna clase lo usa todavía.
+El `Administrador` genera y consulta el informe mensual a partir de las ventas y el inventario. 
 
 ---
 
@@ -630,15 +665,15 @@ Las dos formas de escribir están en `FileManage`:
 - La fecha de la venta es la fecha del sistema.
 
 **Medios de pago**
-- **Efectivo:** el dinero recibido debe cubrir el total. Si no alcanza, pide un monto nuevamente. Si sobra, se muestra el cambio.
+- **Efectivo:** se solicita el dinero recibido y se valida que cubra el total. Si es insuficiente, solicita ingresar un nuevo monto. El proceso vuelve a solicitar un monto incluso cuando el primero es suficiente. Si el pago es válido, se muestra el cambio.
 - **Tarjeta:** se cobra un recargo del 2 % y el total guardado incluye ese recargo.
 - **Transferencia:** se pide el nombre del banco y se cobra el total sin recargo.
 
 **Intercambios**
 - El cliente devuelve unidades del producto 1 (se suman al stock) y se lleva unidades del producto 2 (se restan del stock).
-- La diferencia se calcula con el precio unitario: `precio del producto 2 − precio del producto 1`.
+- La diferencia se calcula teniendo en cuenta los precios unitarios y las cantidades: `(precio del producto 2 × cantidad del producto 1) − (precio del producto 1 × cantidad del producto 2)`.
 - Si la diferencia es mayor que 0, se registra una venta por ese valor y cuenta para la comisión del vendedor.
-- Si la diferencia es 0 o negativa, no se registra venta ni se devuelve dinero.
+- Si la diferencia es 0 o negativa, no se registra la venta.
 
 **Comisiones y salario**
 - Comisión: $3.000 por cada venta registrada (incluye las ventas por intercambio).
@@ -655,9 +690,3 @@ Las dos formas de escribir están en `FileManage`:
 
 ---
 
-## Limitaciones conocidas
-
-- Los vendedores y el administrador están escritos en el código (`Menu.iniciarMenu()`). No hay registro de usuarios ni inicio de sesión; `Usuario.iniciarSesion()` existe pero siempre devuelve `true` y no se llama.
-- Los productos de cada venta (`DetalleVenta`) no se guardan. En `ventas.txt` solo queda el encabezado y el total.
-- Si se escribe texto donde el menú espera un número, el programa se detiene con `InputMismatchException`.
-- `FileManage.updateFile()`, `FileManage.deleteLineInFile()`, `Zapato.verificarDisponibilidad()` y `Venta.leerDeArchivo()` están implementados pero no se usan desde los menús.

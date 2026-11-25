@@ -6,3 +6,4 @@
 6|Gabriel|33313335|Majo|60000.0|2026-11-24|PagoEfectivo
 7|Gabriel|33313335|Majo|90000.0|2026-11-24|PagoEfectivo
 8|Nelson|555555|Andres|50000.0|2026-11-24|PagoEfectivo
+9|Juan|33333333|Majo|50000.0|2026-11-24|PagoTransferencia

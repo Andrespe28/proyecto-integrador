@@ -143,6 +143,8 @@ Los usuarios están definidos en `Menu.iniciarMenu()`. No hay inicio de sesión:
 |---|---|
 | 1 | Ver datos del mes: **1.** salario total de cada vendedor (ventas, comisión, salario base y total) o **2.** registro de ventas. |
 | 2 | Registrar producto: **1.** sumar unidades a un zapato existente o **2.** crear un zapato nuevo (el código se genera solo). |
+| 3 | Generar Archivo mensual. |
+| 4 | Consultar Archivo mensual. |
 | 0 | Volver al menú principal. |
 
 ### Ejemplo: cierre de caja
@@ -151,14 +153,14 @@ Con las 4 ventas de ejemplo de `ventas.txt`, todas del mismo día:
 
 ```
 ==========================================
-       CIERRE DE CAJA - 2026-11-21
+       CIERRE DE CAJA - 2026-11-24
 ==========================================
 Total de ventas realizadas: 4
-Total Efectivo:      $880000.0
-Total Tarjeta:       $581400.0
-Total Transferencia: $370000.0
+Total Efectivo:      $200000.0
+Total Tarjeta:       $510000.0
+Total Transferencia: $0.0
 ------------------------------------------
-TOTAL RECAUDADO:     $1831400.0
+TOTAL RECAUDADO:      $710000.0
 ------------------------------------------
 ```
 
@@ -169,43 +171,41 @@ TOTAL RECAUDADO:     $1831400.0
 ```
 proyecto-integrador/
 ├── src/
-│   ├── Main.java                     Punto de entrada. Crea el Menu y lo inicia.
-│   │
-│   ├── ui/
-│   │   ├── Menu.java                 Menú principal. Crea vendedores y administrador,
-│   │   │                             carga inventario y ventas, y abre los submenús.
-│   │   ├── MenuVendedor.java         Opciones del vendedor (ventas, intercambios, cierre de caja).
-│   │   └── MenuAdmi.java             Opciones del administrador (salarios, ventas, productos).
-│   │
-│   ├── modelos/
-│   │   ├── Usuario.java              Clase padre de Vendedor y Administrador.
-│   │   ├── Vendedor.java
-│   │   ├── Administrador.java
-│   │   ├── Zapato.java
-│   │   ├── Inventario.java           Implementa Guardable.
-│   │   ├── Venta.java                Implementa Guardable. Contiene la clase interna DetalleVenta.
-│   │   ├── MetodoPago.java           Clase abstracta.
-│   │   ├── PagoEfectivo.java
-│   │   ├── PagoTarjeta.java
-│   │   └── PagoTransferencia.java
-│   │
-│   ├── interfaces/
-│   │   └── Guardable.java            Contrato: guardarEnArchivo() y leerDeArchivo().
-│   │
-│   ├── persistencia/
-│   │   └── FileManage.java           Leer, agregar, reemplazar y borrar líneas en los .txt.
-│   │
-│   └── files/
-│       ├── inventario_zapatos.txt    4 zapatos de ejemplo.
-│       ├── ventas.txt                4 ventas de ejemplo.
-│       ├── comisiones.txt            3 líneas, una por vendedor (se regenera al iniciar).
-│       └── Archivo_Mensual.txt       Vacío. Todavía no se usa en el código.
-│
-├── .idea/                            Configuración de IntelliJ IDEA.
-├── .classpath, .project,
-│   *.eml, *.userlibraries            Configuración en formato Eclipse.
-├── .gitignore                        Excluye la carpeta out/.
-└── README.md
+   ├── Main.java                                Punto de entrada. Crea el Menu y lo inicia.
+   │
+   ├── ui/
+   │   ├── Menu.java                            Menú principal. Crea vendedores y administrador,
+   │   │                                        carga inventario y ventas, y abre los submenús.
+   │   ├── MenuVendedor.java                    Opciones del vendedor (ventas, intercambios, cierre de caja).
+   │   └── MenuAdmi.java                        Opciones del administrador (salarios, ventas, productos).
+   │
+   ├── modelos/
+   │   ├── Usuario.java                         Clase padre de Vendedor y Administrador.
+   │   ├── Vendedor.java
+   │   ├── Administrador.java
+   │   ├── Zapato.java
+   │   ├── Inventario.java                      Implementa Guardable.
+   │   ├── Venta.java                           Implementa Guardable. Contiene la clase interna DetalleVenta.
+   │   ├── MetodoPago.java                      Clase abstracta.
+   │   ├── PagoEfectivo.java
+   │   ├── PagoTarjeta.java
+   │   └── PagoTransferencia.java
+   │
+   ├── interfaces/
+   │   └── Guardable.java                       Contrato: guardarEnArchivo() y leerDeArchivo().
+   │
+   ├── persistencia/
+   │   └── FileManage.java                      Leer y agregar líneas en los .txt.
+   │
+   ├── repositorios/
+   │   └── ArchivoMensualRepository.java        CR sobre Archivo:mensual.txt
+   │
+   └── files/
+       ├── inventario_zapatos.txt               5 zapatos de ejemplo.
+       ├── ventas.txt                           8 ventas de ejemplo.
+       ├── comisiones.txt                       3 líneas, una por vendedor (se regenera al iniciar).
+       └── Archivo_Mensual.txt                  Información sobre las ventas e inventario del mes.
+
 ```
 
 ---
@@ -218,7 +218,7 @@ El código está separado en tres capas, una por paquete:
 |---|---|---|
 | Interfaz (consola) | `ui` | Mostrar menús, leer lo que escribe el usuario y llamar a los métodos del modelo. |
 | Dominio | `modelos` | Entidades, cálculos (totales, comisiones, cambio) y validaciones. |
-| Persistencia | `persistencia`, `interfaces` | Leer y escribir líneas en los archivos `.txt`. |
+| Persistencia | `persistencia`, `interfaces`, `repositorios` | Leer y escribir líneas en los archivos `.txt`. |
 
 Algunas clases del modelo también imprimen en consola (por ejemplo `Zapato.mostrarZapato()` y `Administrador.realizarCierreDeCaja()`), así que la separación entre capas no es estricta.
 

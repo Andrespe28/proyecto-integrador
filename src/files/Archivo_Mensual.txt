@@ -6,10 +6,10 @@ INFORME MENSUAL: 2026-11
 INVENTARIO ACTUAL
 --------------------------------
 0001|Tenis|37|Negro|150000.0|15|A|Mujer
-0002|Deportivo|41|Verde|200000.0|6|C|Hombre
-0003|Tacones|34|Rojo|70000.0|1|B|Mujer
+0002|Deportivo|41|Verde|200000.0|5|C|Hombre
+0003|Tacones|34|Rojo|70000.0|0|B|Mujer
 0004|Tacones|32|Rojo|85000.0|4|B|Mujer
-0005|Zandalia|31|Café|60000.0|12|D|Hombre
+0005|Zandalia|31|Café|60000.0|11|D|Hombre
 
 --------------------------------
 VENTAS DEL MES
@@ -54,4 +54,29 @@ Fecha: 2026-11-24
 Método de pago: Tarjeta
 Total: $510000.0
 ------------------------------------
-TOTAL VENDIDO EN EL MES: $2341400.0
+Venta: 6
+Comprador: Gabriel
+Teléfono: 33313335
+Vendedor: Majo
+Fecha: 2026-11-24
+Método de pago: Efectivo
+Total: $60000.0
+------------------------------------
+Venta: 7
+Comprador: Gabriel
+Teléfono: 33313335
+Vendedor: Majo
+Fecha: 2026-11-24
+Método de pago: Efectivo
+Total: $90000.0
+------------------------------------
+Venta: 8
+Comprador: Nelson
+Teléfono: 555555
+Vendedor: Andres
+Fecha: 2026-11-24
+Método de pago: Efectivo
+Total: $50000.0
+------------------------------------
+TOTAL VENDIDO EN EL MES: $2541400.0
+------------------------------------

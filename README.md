@@ -31,7 +31,6 @@ Aplicar herencia, polimorfismo, encapsulamiento, abstracción e interfaces en un
 8. [Formato de los archivos de datos](#formato-de-los-archivos-de-datos)
 9. [ArrayList vs archivo de texto](#arraylist-vs-archivo-de-texto)
 10. [Reglas de negocio](#reglas-de-negocio)
-11. [Limitaciones conocidas](#limitaciones-conocidas)
 
 ---
 
@@ -282,7 +281,6 @@ classDiagram
         -String nombre
         +getNombre() String
         +getCedula() String
-        +iniciarSesion() boolean
     }
 
     class Vendedor {
@@ -382,8 +380,6 @@ classDiagram
         +getDataOfFile() ArrayList~String~
         +writeFile(String)
         +writeLinesToFile(ArrayList~String~)
-        +updateFile(String, String)
-        +deleteLineInFile(String)
     }
 
     Usuario <|-- Vendedor
@@ -588,7 +584,7 @@ Este archivo se calcula a partir de `ventas.txt`. Se reescribe al iniciar el pro
 
 ### `Archivo_Mensual.txt`
 
-Está vacío y ninguna clase lo usa todavía.
+El `Administrador` genera y consulta el informe mensual a partir de las ventas y el inventario. 
 
 ---
 
@@ -638,7 +634,7 @@ Las dos formas de escribir están en `FileManage`:
 - El cliente devuelve unidades del producto 1 (se suman al stock) y se lleva unidades del producto 2 (se restan del stock).
 - La diferencia se calcula con el precio unitario: `precio del producto 2 − precio del producto 1`.
 - Si la diferencia es mayor que 0, se registra una venta por ese valor y cuenta para la comisión del vendedor.
-- Si la diferencia es 0 o negativa, no se registra venta ni se devuelve dinero.
+- Si la diferencia es 0 o negativa, no se registra la venta.
 
 **Comisiones y salario**
 - Comisión: $3.000 por cada venta registrada (incluye las ventas por intercambio).
@@ -655,9 +651,3 @@ Las dos formas de escribir están en `FileManage`:
 
 ---
 
-## Limitaciones conocidas
-
-- Los vendedores y el administrador están escritos en el código (`Menu.iniciarMenu()`). No hay registro de usuarios ni inicio de sesión; `Usuario.iniciarSesion()` existe pero siempre devuelve `true` y no se llama.
-- Los productos de cada venta (`DetalleVenta`) no se guardan. En `ventas.txt` solo queda el encabezado y el total.
-- Si se escribe texto donde el menú espera un número, el programa se detiene con `InputMismatchException`.
-- `FileManage.updateFile()`, `FileManage.deleteLineInFile()`, `Zapato.verificarDisponibilidad()` y `Venta.leerDeArchivo()` están implementados pero no se usan desde los menús.

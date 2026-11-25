@@ -140,7 +140,7 @@ Los usuarios están definidos en `Menu.iniciarMenu()`. No hay inicio de sesión:
 
 | Opción | Acción |
 |---|---|
-| 1 | Ver datos del mes: **1.** salario total de cada vendedor (ventas, comisión, salario base y total) o **2.** registro de ventas. |
+| 1 | Ver datos: **1.** salario total de cada vendedor (ventas realizadas, comisión, salario base y total acumulado) o **2.** registro de todas las ventas. |
 | 2 | Registrar producto: **1.** sumar unidades a un zapato existente o **2.** crear un zapato nuevo (el código se genera solo). |
 | 3 | Generar Archivo mensual. |
 | 4 | Consultar Archivo mensual. |
@@ -197,7 +197,7 @@ proyecto-integrador/
    │   └── FileManage.java                      Leer y agregar líneas en los .txt.
    │
    ├── repositorios/
-   │   └── ArchivoMensualRepository.java        CR sobre Archivo:mensual.txt
+   │   └── ArchivoMensualRepository.java        Gestiona la lectura y escritura de Archivo_Mensual.txt
    │
    └── files/
        ├── inventario_zapatos.txt               5 zapatos de ejemplo.
@@ -382,6 +382,12 @@ classDiagram
         +writeLinesToFile(ArrayList~String~)
     }
 
+    class ArchivoMensualRepository {
+        -FileManage fileManager
+        +guardar(ArrayList~String~)
+        +consultar() ArrayList~String~
+    }
+
     Usuario <|-- Vendedor
     Usuario <|-- Administrador
 
@@ -402,6 +408,8 @@ classDiagram
     Inventario ..> FileManage
     Venta ..> FileManage
     Administrador ..> FileManage
+    Administrador ..> ArchivoMensualRepository
+    ArchivoMensualRepository ..> FileManage
 ```
 
 **Cómo leer las flechas**
@@ -626,13 +634,13 @@ Las dos formas de escribir están en `FileManage`:
 - La fecha de la venta es la fecha del sistema.
 
 **Medios de pago**
-- **Efectivo:** el dinero recibido debe cubrir el total. Si no alcanza, pide un monto nuevamente. Si sobra, se muestra el cambio.
+- **Efectivo:** se solicita el dinero recibido y se valida que cubra el total. Si es insuficiente, solicita ingresar un nuevo monto. El proceso vuelve a solicitar un monto incluso cuando el primero es suficiente. Si el pago es válido, se muestra el cambio.
 - **Tarjeta:** se cobra un recargo del 2 % y el total guardado incluye ese recargo.
 - **Transferencia:** se pide el nombre del banco y se cobra el total sin recargo.
 
 **Intercambios**
 - El cliente devuelve unidades del producto 1 (se suman al stock) y se lleva unidades del producto 2 (se restan del stock).
-- La diferencia se calcula con el precio unitario: `precio del producto 2 − precio del producto 1`.
+- La diferencia se calcula teniendo en cuenta los precios unitarios y las cantidades: `(precio del producto 2 × cantidad del producto 1) − (precio del producto 1 × cantidad del producto 2)`.
 - Si la diferencia es mayor que 0, se registra una venta por ese valor y cuenta para la comisión del vendedor.
 - Si la diferencia es 0 o negativa, no se registra la venta.
 

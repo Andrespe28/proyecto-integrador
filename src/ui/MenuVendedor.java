@@ -130,7 +130,8 @@ public class MenuVendedor {
                                 break;
                             case 2:
                                 System.out.println("Ingrese el número de la tarjeta: ");
-                                int numTarjetaCambio=sc.nextInt();
+                                long numTarjetaCambio=sc.nextLong();
+                                sc.nextLine();
                                 PagoTarjeta pagoTarjeta=new PagoTarjeta(total,numTarjetaCambio);
                                 venta.setTotal(pagoTarjeta.procesarPago());
                                 venta.setMetodoPago(pagoTarjeta);
@@ -237,7 +238,7 @@ public class MenuVendedor {
                             break;
                         case 2:
                             System.out.println("Ingrese el número de la tarjeta: ");
-                            int numTarjeta=sc.nextInt();
+                            long numTarjeta=sc.nextLong();
                             sc.nextLine();
                             PagoTarjeta pagoTarjeta=new PagoTarjeta(totalVenta,numTarjeta);
                             venta.setTotal(pagoTarjeta.procesarPago());
